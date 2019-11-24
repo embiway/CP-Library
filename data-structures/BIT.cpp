@@ -1,4 +1,8 @@
 /*
+    Implementation of Binary Indexed Tree (Fenwick Tree), with a linear-time initialization.
+    Calculates range sum query and point update in logarithmic time.
+    Where N is the size of the array.
+    
     - CONSTRUCTION
         Time:  O(1)
         Space: O(N)
