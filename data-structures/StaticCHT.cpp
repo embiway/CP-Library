@@ -1,11 +1,11 @@
 /*
-    - init()
+    - void init()
         Time:  O(1)
         Space: O(1)
-    - insert()
+    - void insert(Line<T>& a, Line<T>& b, Line<T>& c)
         Time:  O(1)
         Space: O(1)
-    - get()
+    - pair<T, int> get(T x)
         Time:  O(1)
         Space: O(1)
 */
