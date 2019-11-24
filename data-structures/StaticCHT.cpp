@@ -2,12 +2,15 @@
     - CONSTRUCTION
         Time:  O(1)
         Space: O(N)
+        
     - void init()
         Time:  O(1)
         Space: O(1)
+        
     - void insert(Line<T>& a, Line<T>& b, Line<T>& c)
         Time:  O(1)
         Space: O(1)
+        
     - pair<T, int> get(T x)
         Time:  O(1)
         Space: O(1)
