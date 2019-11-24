@@ -24,6 +24,10 @@
         Space: O(1)
 */
 
+#include <bits/stdc++.h>
+
+using namespace std;
+
 template <const int MAXN, typename T>
 struct BIT
 {
