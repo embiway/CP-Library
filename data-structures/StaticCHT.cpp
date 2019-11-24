@@ -1,4 +1,7 @@
 /*
+    Convex Hull Trick with sorted insertions and queries.
+    Originally to solve APIO 2014 P2.
+    
     - CONSTRUCTION
         Time:  O(1)
         Space: O(N)
