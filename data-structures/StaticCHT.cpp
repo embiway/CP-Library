@@ -1,4 +1,7 @@
 /*
+    - CONSTRUCTION
+        Time:  O(1)
+        Space: O(N)
     - void init()
         Time:  O(1)
         Space: O(1)
