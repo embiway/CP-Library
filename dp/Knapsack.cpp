@@ -10,6 +10,7 @@ using namespace std;
     - T small_w(int N, int W, auto& w, auto& v)
         Time:  O(N * W)
         Space: O(W)
+        
     - T small_v(int N, int W, auto& w, auto& v)
         Time:  O(N * sum(v))
         Space: O(sum(v))
