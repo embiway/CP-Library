@@ -39,7 +39,7 @@ struct BIT
     
     void init() { memset(bit, 0, sizeof(bit)); }
     
-    void init(auto& a, int sz)
+    void init(const auto& a, const int sz)
     {
         memset(bit, 0, sizeof(bit));
         for (int i = 1; i <= sz; i++)
@@ -50,7 +50,7 @@ struct BIT
         }
     }
     
-    void update(int i, T x)
+    void update(int i, const T x)
     {
         for (; i < MAXN; i += i & -i) bit[i] += x;
     }
@@ -62,7 +62,7 @@ struct BIT
         return res;
     }
     
-    T query(int l, int r)
+    T query(const int l, const int r)
     {
         return query(r) - query(l - 1);
     }
