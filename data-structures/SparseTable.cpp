@@ -23,7 +23,7 @@ struct SparseTable
     int lg[MAXN + 1];
     T st[MAXN][LG];
     
-    void init(auto& arr)
+    void init(const auto& arr)
     {
         for (int i = 0; i < MAXN; i++) st[i][0] = arr[i];
         lg[1] = 0;
@@ -38,7 +38,7 @@ struct SparseTable
         }
     }
     
-    T query(int l, int r)
+    T query(const int l, const int r)
     {
         int k = lg[r - l + 1];
         return min(st[l][k], st[r - (1 << k) + 1][k]);
