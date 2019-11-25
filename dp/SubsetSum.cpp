@@ -19,6 +19,11 @@
         Space: O(2 ^ N)
 */
 
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+
+using namespace std;
+
 namespace SubsetSum
 {
     static const int MAXSUM = 1000000;  // change this value if needed
