@@ -19,7 +19,7 @@ using namespace std;
 namespace Knapsack
 {
     template <typename T>
-    T small_w(int N, int W, auto& w, auto& v) 
+    T small_w(const int N, const int W, const auto& w, const auto& v) 
     {
         vector<T> dp(W + 1);
         
@@ -31,7 +31,7 @@ namespace Knapsack
     }
     
     template <typename T>
-    T small_v(int N, int W, auto& w, auto& v)
+    T small_v(const int N, const int W, const auto& w, const auto& v)
     {
         int V = 0; for (int i = 0; i < N; i++) V += v[i];
         vector<T> dp(V + 1, W + 1);
