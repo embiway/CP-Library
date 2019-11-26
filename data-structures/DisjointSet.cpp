@@ -31,14 +31,14 @@ using namespace std;
         Space: O(1)
 */
 
-template <const int MAXN>
+template <const int N>
 struct DisjointSet
 {
-    int parent[MAXN], sz[MAXN];
+    int parent[N], sz[N];
     
     void init()
     {
-        for (int i = 1; i <= MAXN; i++) parent[i] = i;
+        for (int i = 1; i <= N; i++) parent[i] = i;
         memset(sz, 1, sizeof(sz));
     }
     
