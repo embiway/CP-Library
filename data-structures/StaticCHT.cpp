@@ -32,11 +32,11 @@ struct Line
     T get(const T x) { return m * x + b; }
 };
 
-template <const int MAXN, typename T>
+template <const int N, typename T>
 struct StaticCHT
 {
     int ptr, sz;
-    Line<T> v[MAXN];
+    Line<T> v[N];
     
     void init() { sz = ptr = 0; }
     
