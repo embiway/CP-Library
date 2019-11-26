@@ -34,7 +34,7 @@ using namespace std;
 template <const int N>
 struct DisjointSet
 {
-    int parent[N], sz[N];
+    int parent[N + 1], sz[N + 1];
     
     void init()
     {
