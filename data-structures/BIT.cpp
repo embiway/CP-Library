@@ -32,10 +32,10 @@
 
 using namespace std;
 
-template <const int MAXN, typename T>
+template <const int N, typename T>
 struct BIT
 {
-    T bit[MAXN];
+    T bit[N];
     
     void init() { memset(bit, 0, sizeof(bit)); }
     
@@ -52,7 +52,7 @@ struct BIT
     
     void update(int i, const T x)
     {
-        for (; i < MAXN; i += i & -i) bit[i] += x;
+        for (; i < N; i += i & -i) bit[i] += x;
     }
     
     T query(int i)
