@@ -16,22 +16,22 @@
         Space: O(1)
 */
 
-template <const int MAXN, typename T>
+template <const int N, typename T>
 struct SparseTable
 {
-    static const int LG = 32 - __builtin_clz(MAXN);
-    int lg[MAXN + 1];
-    T st[MAXN][LG];
+    static const int LG = 32 - __builtin_clz(N);
+    int lg[N + 1];
+    T st[N][LG];
     
     void init(const auto& arr)
     {
-        for (int i = 0; i < MAXN; i++) st[i][0] = arr[i];
+        for (int i = 0; i < N; i++) st[i][0] = arr[i];
         lg[1] = 0;
-        for (int i = 2; i <= MAXN; i++) lg[i] = lg[i >> 1] + 1;
+        for (int i = 2; i <= N; i++) lg[i] = lg[i >> 1] + 1;
         
         for (int j = 1; j <= LG; j++)
         {
-            for (int i = 0; i + (1 << j) <= MAXN; i++)
+            for (int i = 0; i + (1 << j) <= N; i++)
             {
                 st[i][j] = min(st[i][j - 1], st[i + (1 << (j - 1))][j - 1]);
             }
