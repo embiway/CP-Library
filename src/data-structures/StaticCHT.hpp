@@ -45,13 +45,13 @@ struct StaticCHT
     
     void insert(const Line<T> x)
     {
-        while (ptr + 1 < sz && bad(v[sz - 2], v[sz - 1], x)) --sz;
-        v[sz++] = x;
+    	while (ptr + 1 < sz && bad(v[sz - 2], v[sz - 1], x)) --sz;
+    	v[sz++] = x;
     }
     
     pair<T, int> get(const T x)
     {
-        ptr = min(ptr, sz);
+    	ptr = min(ptr, sz);
         while (ptr + 1 < sz && v[ptr].get(x) <= v[ptr + 1].get(x)) ++ptr;
         return { v[ptr].get(x), v[ptr].id };
     }

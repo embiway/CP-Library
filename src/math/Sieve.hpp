@@ -52,10 +52,14 @@ namespace Sieve
         vector<T> primes = get_primes<T>(sqrt(B)), is_prime(((B - A + 1) >> 6) + 1), res;
         
         if (B < 2) return res;
-        if (A < 3) A = 3;
+        if (A < 3)
+        {
+        	if (A <= 2) res.push_back(2);
+        	A = 3;
+        }
         if ((A & 1) == 0) ++A;
         
-        for (T i = 1; i < primes.size(); i++)
+        for (int i = 1; i < primes.size(); i++)
         {
             T p = primes[i], j = (A + p - 1) / p * p;
             if ((j & 1) == 0) j += p;
@@ -66,7 +70,6 @@ namespace Sieve
             }
         }
         
-        if (A >= 2) res.push_back(2);
         for (T i = 0; i <= B - A; i += 2)
         {
             if (!ifc(i)) res.push_back(A + i);

@@ -4,7 +4,7 @@
     be sorted. The check() function returns whether a subset sum exists which equals 'sum', as 
     well as std::bitset to test for sums below 'sum' (for queries). Note the default bitset size 
     is 1000000, which can be modified in the code. The count() function counts the number of subset 
-    sums which sum to k, using gp_hash_table (a.k.a. hash map).
+    sums which sum to k. Also, unordered_map may be changed to gp_hash_table if performance boosts.
     
     - vector<T> sums(const auto& a, const int sz, const bool sorted)
         Time:  O(N * 2 ^ N)
@@ -21,7 +21,6 @@
 
 #pragma once
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
 
@@ -58,7 +57,7 @@ namespace SubsetSum
     template <typename T>
     long long count(const auto& a, const int sz, const T sum)
     {
-        __gnu_pbds::gp_hash_table<T, long long> left, right;
+        unordered_map<T, long long> left, right;
         left[0] = 1, right[0] = 1;
         
         for (int i = 0; i < sz >> 1; i++)

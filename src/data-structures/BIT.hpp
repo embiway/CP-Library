@@ -11,7 +11,7 @@
         Time:  O(1)
         Space: O(1)
         
-    - void init(auto& a, int sz)
+    - void init(const auto& a, const int sz)
         Time:  O(N)
         Space: O(1)
         
