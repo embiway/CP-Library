@@ -1,6 +1,9 @@
 /Build (GNU)/
 /.settings/
-/tests/
+/test1/
 /.autotools
 /.cproject
 /.project
+
+*.o
+*.exe
