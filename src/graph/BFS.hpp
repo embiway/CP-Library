@@ -24,6 +24,10 @@
 	- vector<int> get_path(int v)
 		Time:  O(V)
 		Space: O(V)
+
+	- void clear()
+		Time:  O(1)
+		Space: O(1)
 */
 
 #pragma once
@@ -42,14 +46,14 @@ struct BFS
 
 	void add_bi(int u, int v) { add(u, v); add(v, u); }
 
-	int* min_path(int u)
+	int* min_path(int v)
 	{
 		queue<int>().swap(q);
 		fill(dist, dist + V + 1, INT_MAX);
 		memset(parent, -1, sizeof(parent));
 
-		q.push(u);
-		dist[u] = 0;
+		q.push(v);
+		dist[v] = 0;
 
 		while (!q.empty())
 		{
