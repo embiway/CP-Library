@@ -79,4 +79,4 @@ namespace SubsetSum
         }
         return res;
     }
-};
+}

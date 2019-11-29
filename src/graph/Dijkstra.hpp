@@ -51,7 +51,7 @@ template <const int V, typename T>
 struct Dijkstra
 {
 	const T INF = numeric_limits<T>::max();
-	vector<pair<int, T>> adj[V + 1];
+	vector<Node<T>> adj[V + 1];
 	priority_queue<Node<T>> pq;
 	T dist[V + 1];
 	int parent[V + 1];
@@ -78,12 +78,12 @@ struct Dijkstra
 
 			for (const auto& i : adj[cv])
 			{
-				T d = i.second + dist[cv];
-				if (dist[i.first] > d)
+				T d = i.w + dist[cv];
+				if (dist[i.v] > d)
 				{
-					parent[i.first] = cv;
-					dist[i.first] = d;
-					pq.emplace(i.first, dist[i.first]);
+					parent[i.v] = cv;
+					dist[i.v] = d;
+					pq.emplace(i.v, dist[i.v]);
 				}
 			}
 		}

@@ -16,7 +16,7 @@
 		Space: O(V + E)
 
 	- vector<Edge<T>> get_path()
-		Time:  O(V)
+		Time:  O(1)
 		Space: O(1)
 
 	- void clear()

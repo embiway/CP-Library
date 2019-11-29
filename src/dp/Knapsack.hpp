@@ -48,4 +48,4 @@ namespace Knapsack
             if (dp[i] <= W) return i;
         }
     }
-};
+}
