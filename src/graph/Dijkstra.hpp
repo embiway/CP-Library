@@ -1,6 +1,6 @@
 /*
 	Implementation of Dijkstra's algorithm with std::priority_queue and
-	a custom node. Similar in the BFS implementation, min_path() returns the
+	a custom node. Similar to the BFS implementation, min_path() returns the
 	dist[] array, where the disconnected nodes have a value of
 	numeric_limits<T>::max(). The get_path() function takes in an argument,
 	the destination, and returns a vector of a shortest path from the
@@ -37,22 +37,21 @@
 
 using namespace std;
 
-template <typename T>
-struct Node
-{
-	int v; T w;
-
-	Node(int v, T w) : v(v), w(w) {}
-
-	bool operator < (const Node<T>& n) const { return n.w < w; }
-};
-
 template <const int V, typename T>
 struct Dijkstra
 {
+	struct Node
+	{
+		int v; T w;
+
+		Node(int v, T w) : v(v), w(w) {}
+
+		bool operator < (const Node& n) const { return n.w < w; }
+	};
+
 	const T INF = numeric_limits<T>::max();
-	vector<Node<T>> adj[V + 1];
-	priority_queue<Node<T>> pq;
+	vector<Node> adj[V + 1];
+	priority_queue<Node> pq;
 	T dist[V + 1];
 	int parent[V + 1];
 
@@ -62,7 +61,7 @@ struct Dijkstra
 
 	T* min_path(int v)
 	{
-		priority_queue<Node<T>>().swap(pq);
+		priority_queue<Node>().swap(pq);
 		fill(dist, dist + V + 1, INF);
 		memset(parent, -1, sizeof(parent));
 

@@ -24,26 +24,25 @@
 
 using namespace std;
 
-template <typename T>
-struct Line
-{
-    T m, b;
-    int id;
-    
-    T get(const T x) { return m * x + b; }
-};
-
 template <const int N, typename T>
 struct StaticCHT
 {
+	struct Line
+	{
+	    T m, b;
+	    int id;
+
+	    T get(const T x) { return m * x + b; }
+	};
+
     int ptr, sz;
-    Line<T> v[N];
+    Line v[N];
     
     void init() { sz = ptr = 0; }
     
-    bool bad(const Line<T>& a, const Line<T>& b, const Line<T>& c) { return (a.b - c.b) * (b.m - a.m) <= (c.m - a.m) * (a.b - b.b); }
+    bool bad(const Line& a, const Line& b, const Line& c) { return (a.b - c.b) * (b.m - a.m) <= (c.m - a.m) * (a.b - b.b); }
     
-    void insert(const Line<T> x)
+    void insert(const Line x)
     {
     	while (ptr + 1 < sz && bad(v[sz - 2], v[sz - 1], x)) --sz;
     	v[sz++] = x;

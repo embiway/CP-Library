@@ -30,20 +30,19 @@
 
 using namespace std;
 
-template <typename T>
-struct Edge
-{
-	int u, v; T w;
-
-	Edge(int u, int v, T w) : u(u), v(v), w(w) {}
-
-	bool operator < (const Edge& e) const { return w < e.w; }
-};
-
 template <const int V, typename T>
 struct Kruskal
 {
-	vector<Edge<T>> graph, mst;
+	struct Edge
+	{
+		int u, v; T w;
+
+		Edge(int u, int v, T w) : u(u), v(v), w(w) {}
+
+		bool operator < (const Edge& e) const { return w < e.w; }
+	};
+
+	vector<Edge> graph, mst;
 	DisjointSet<V> ds;
 
 	void add(int u, int v, T w) { graph.emplace_back(u, v, w); }
@@ -62,7 +61,7 @@ struct Kruskal
 		return ans;
 	}
 
-	vector<Edge<T>> get_path() { return mst; }
+	vector<Edge> get_path() { return mst; }
 
 	void clear() { graph.clear(); mst.clear(); }
 };

@@ -31,32 +31,30 @@
 
 using namespace std;
 
-template <typename T>
-struct Edge
-{
-	int u, v; T w;
-
-	Edge(int u, int v, T w) : u(u), v(v), w(w) {}
-
-	bool operator < (const Edge& e) const { return w < e.w; }
-};
-
-template <typename T>
-struct Node
-{
-	int v; T w;
-
-	Node(int v, T w) : v(v), w(w) {}
-
-	bool operator < (const Node<T>& n) const { return n.w < w; }
-};
-
 template <const int V, typename T>
 struct Prim
 {
-	vector<Node<T>> adj[V + 1];
-	vector<Edge<T>> mst;
-	priority_queue<Node<T>> pq;
+	struct Edge
+	{
+		int u, v; T w;
+
+		Edge(int u, int v, T w) : u(u), v(v), w(w) {}
+
+		bool operator < (const Edge& e) const { return w < e.w; }
+	};
+
+	struct Node
+	{
+		int v; T w;
+
+		Node(int v, T w) : v(v), w(w) {}
+
+		bool operator < (const Node& n) const { return n.w < w; }
+	};
+
+	vector<Node> adj[V + 1];
+	vector<Edge> mst;
+	priority_queue<Node> pq;
 	T cost[V + 1];
 	bool visited[V + 1];
 	pair<int, T> parent[V + 1];
@@ -65,7 +63,7 @@ struct Prim
 
 	T min_path()
 	{
-		priority_queue<Node<T>>().swap(pq);
+		priority_queue<Node>().swap(pq);
 		fill(cost, cost + V + 1, INT_MAX);
 		memset(visited, 0, sizeof(visited));
 		memset(parent, -1, sizeof(parent));
@@ -101,5 +99,5 @@ struct Prim
 		return ans;
 	}
 
-	vector<Edge<T>> get_path() { return mst; }
+	vector<Edge> get_path() { return mst; }
 };
