@@ -1,5 +1,5 @@
 /*
-	Implementation of iterative Segment Tree which supports range-min
+	Implementation of iterative Segment Tree which supports range-max
 	query and point update. The Segment Tree is useful because it is
 	very versatile, as it can do basically any math function as a
 	query. Keep in mind that the queries are 0-indexed, and range is [l, r).
@@ -40,6 +40,7 @@ struct SegTree
 	void update(int i, const T v, const int sz)
 	{
 		for (i += sz, tree[i] = v; i > 0; i >>= 1) tree[i >> 1] = max(tree[i], tree[i ^ 1]);
+		for (i += N, tree[i] = v; i > 1; i >>= 1) tree[i >> 1] = max(tree[i], tree[i ^ 1]);
 	}
 
 	int query(int l, int r, const int sz)
