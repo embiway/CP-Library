@@ -34,12 +34,12 @@ struct SegTree
 	void build(const auto& a, const int sz)
 	{
 		for (int i = 0; i < sz; i++) tree[sz + i] = a[i];
-		for (int i = sz - 1; i; i--) tree[i] = max(tree[i << 1], tree[i << 1 | 1]);
+		for (int i = sz - 1; i > 0; i--) tree[i] = max(tree[i << 1], tree[i << 1 | 1]);
 	}
 
 	void update(int i, const T v, const int sz)
 	{
-		for (i += sz, tree[i] = v; i; i >>= 1) tree[i >> 1] = max(tree[i], tree[i ^ 1]);
+		for (i += sz, tree[i] = v; i > 0; i >>= 1) tree[i >> 1] = max(tree[i], tree[i ^ 1]);
 	}
 
 	int query(int l, int r, const int sz)
