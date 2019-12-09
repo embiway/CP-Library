@@ -1,3 +1,26 @@
+/*
+	Implementation of iterative Segment Tree which supports range-min
+	query and point update. The Segment Tree is useful because it is
+	very versatile, as it can do basically any math function as a
+	query. N is the size of the array.
+
+	- CONSTRUCTION
+		Time:  O(1)
+		Space: O(N)
+
+	- void build(const auto& a, const int sz)
+		Time:  O(N)
+		Space: O(1)
+
+	- void update(int i, T v)
+		Time:  O(log N)
+		Space: O(1)
+
+	- int query(int l, int r)
+		Time:  O(log N)
+		Space: O(1)
+*/
+
 #pragma once
 #include <bits/stdc++.h>
 
