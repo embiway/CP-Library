@@ -1,5 +1,5 @@
 /*
-	Implementation of iterative Segment Tree which supports range-min
+	Implementation of iterative Segment Tree which supports range-max
 	query and point update. The Segment Tree is useful because it is
 	very versatile, as it can do basically any math function as a
 	query. N is the size of the array.
