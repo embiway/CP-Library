@@ -85,8 +85,8 @@ int LCS(string a, string b)
 		for (; l[i]; lcs++) l[i] &= l[i] - 1;
 	}
 
+	delete[] l;
 	for (int i = 0; i <= 26; i++) delete[] occ[i];
 	delete[] occ;
-	delete[] l;
 	return lcs;
 }
