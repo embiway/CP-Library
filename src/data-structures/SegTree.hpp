@@ -35,17 +35,17 @@ struct SegTree
 {
 	T tree[2 * N];
 	
-	T combine(T left, T right) { return max(left, right); }
+	T merge(T left, T right) { return max(left, right); }
 
 	void build(const auto& a, const int sz)
 	{
 		for (int i = 0; i < sz; i++) tree[sz + i] = a[i];
-		for (int i = sz - 1; i > 0; i--) tree[i] = combine(tree[i << 1], tree[i << 1 | 1]);
+		for (int i = sz - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
 	void update(int i, const T v, const int sz)
 	{
-		for (i += sz, tree[i] = v; i > 1; i >>= 1) tree[i >> 1] = combine(tree[i], tree[i ^ 1]);
+		for (i += sz, tree[i] = v; i >>= 1; ) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
 	int query(int l, int r, const int sz)
@@ -53,10 +53,10 @@ struct SegTree
 		T resl = 0, resr = 0;
 		for (l += sz, r += sz; l < r; l >>= 1, r >>= 1)
 		{
-			if (l & 1) resl = combine(resl, tree[l++]);
-			if (r & 1) resr = combine(resr, tree[--r]);
+			if (l & 1) resl = merge(resl, tree[l++]);
+			if (r & 1) resr = merge(resr, tree[--r]);
 		}
-		return combine(resl, resr);
+		return merge(resl, resr);
 	}
 	
 	void clear() { memset(tree, 0, sizeof(tree)); }
