@@ -3,19 +3,26 @@
 	query and point update. The Segment Tree is useful because it is
 	very versatile, as it can do basically any math function as a
 	query. Keep in mind that the queries are 0-indexed, and range is [l, r).
+
 	- CONSTRUCTION
 		Time:  O(1)
 		Space: O(N)
 	- void build(const auto& a, const int sz)
 		Time:  O(N)
 		Space: O(1)
+		
+	- void build(const int sz)
+		Time:  O(N)
+		Space: O(1)
 
 	- void build(const int sz)
 		Time:  O(N)
 		Space: O(1)
+
 	- void update(int i, T v)
 		Time:  O(log N)
 		Space: O(1)
+
 	- int query(int l, int r)
 		Time:  O(log N)
 		Space: O(1)
