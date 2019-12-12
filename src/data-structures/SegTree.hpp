@@ -56,7 +56,7 @@ struct SegTree
 			if (l & 1) resl = combine(resl, tree[l++]);
 			if (r & 1) resr = combine(resr, tree[--r]);
 		}
-		return res;
+		return combine(resl, resr);
 	}
 	
 	void clear() { memset(tree, 0, sizeof(tree)); }
