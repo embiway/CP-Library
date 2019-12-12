@@ -11,6 +11,10 @@
 	- void build(const auto& a, const int sz)
 		Time:  O(N)
 		Space: O(1)
+		
+	- void build(const int sz)
+		Time:  O(N)
+		Space: O(1)
 
 	- void update(int i, T v)
 		Time:  O(log N)
@@ -34,12 +38,19 @@ template <const int N, typename T>
 struct SegTree
 {
 	T tree[2 * N];
+	const T DEFAULT = 0;
 	
-	T merge(T left, T right) { return max(left, right); }
+	T merge(T left, T right) { return left + right; }
 
 	void build(const auto& a, const int sz)
 	{
 		for (int i = 0; i < sz; i++) tree[sz + i] = a[i];
+		for (int i = sz - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
+	}
+	
+	void build(const int sz)
+	{
+	    for (int i = 0; i < sz; i++) tree[sz + i] = DEFAULT;
 		for (int i = sz - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
@@ -50,7 +61,7 @@ struct SegTree
 
 	T query(int l, int r, const int sz)
 	{
-		T resl = 0, resr = 0;
+		T resl = DEFAULT, resr = DEFAULT;
 		for (l += sz, r += sz; l < r; l >>= 1, r >>= 1)
 		{
 			if (l & 1) resl = merge(resl, tree[l++]);
@@ -58,6 +69,4 @@ struct SegTree
 		}
 		return merge(resl, resr);
 	}
-	
-	void clear() { memset(tree, 0, sizeof(tree)); }
 };
