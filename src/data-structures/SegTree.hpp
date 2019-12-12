@@ -19,6 +19,10 @@
 	- int query(int l, int r)
 		Time:  O(log N)
 		Space: O(1)
+		
+	- void clear()
+		Time:  O(1)
+		Space: O(1)
 */
 
 #pragma once
@@ -52,4 +56,6 @@ struct SegTree
 		}
 		return res;
 	}
+	
+	void clear() { memset(tree, 0, sizeof(tree)); }
 };
