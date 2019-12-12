@@ -19,7 +19,6 @@ namespace Search
 		{
 			mid = lo + (hi - lo) / 2;
 			auto temp = f(mid);
-
 			if (temp < 0) lo = mid + 1;
 			else if (temp > 0) hi = mid - 1;
 			else return mid;
