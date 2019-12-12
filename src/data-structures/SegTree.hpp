@@ -40,7 +40,6 @@ struct SegTree
 	void update(int i, const T v, const int sz)
 	{
 		for (i += sz, tree[i] = v; i > 0; i >>= 1) tree[i >> 1] = max(tree[i], tree[i ^ 1]);
-		for (i += sz, tree[i] = v; i > 1; i >>= 1) tree[i >> 1] = max(tree[i], tree[i ^ 1]);
 	}
 
 	int query(int l, int r, const int sz)
