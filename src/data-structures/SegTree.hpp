@@ -48,7 +48,7 @@ struct SegTree
 		for (i += sz, tree[i] = v; i >>= 1; ) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	int query(int l, int r, const int sz)
+	T query(int l, int r, const int sz)
 	{
 		T resl = 0, resr = 0;
 		for (l += sz, r += sz; l < r; l >>= 1, r >>= 1)
