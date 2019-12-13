@@ -52,18 +52,18 @@ struct Dijkstra
 	const T INF = numeric_limits<T>::max();
 	vector<Node> adj[MAXV + 1];
 	priority_queue<Node> pq;
-	T dist[MAXV + 1];
-	int parent[MAXV + 1];
+	vector<T> dist = vector<T>(MAXV + 1);
+	vector<int> parent = vector<int>(MAXV + 1);
 
 	void add(int u, int v, T w) { adj[u].emplace_back(v, w); }
 
 	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
 
-	T* min_path(int v, int V = MAXV)
+	vector<T> min_path(int v, int V = MAXV)
 	{
 		priority_queue<Node>().swap(pq);
-		fill(dist, dist + V + 1, INF);
-		memset(parent, -1, sizeof(parent));
+		fill(dist.begin(), dist.end(), INF);
+		fill(parent.begin(), parent.end(), -1);
 
 		pq.emplace(v, 0);
 		dist[v] = 0;
