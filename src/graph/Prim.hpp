@@ -13,7 +13,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- T min_path()
+	- T min_path(int V = MAXV)
 		Time:  O(E * log V)
 		Space: O(V + E)
 
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-template <const int V, typename T>
+template <const int MAXV, typename T>
 struct Prim
 {
 	struct Edge
@@ -52,16 +52,16 @@ struct Prim
 		bool operator < (const Node& n) const { return n.w < w; }
 	};
 
-	vector<Node> adj[V + 1];
+	vector<Node> adj[MAXV + 1];
 	vector<Edge> mst;
 	priority_queue<Node> pq;
-	T cost[V + 1];
-	bool visited[V + 1];
-	pair<int, T> parent[V + 1];
+	T cost[MAXV + 1];
+	bool visited[MAXV + 1];
+	pair<int, T> parent[MAXV + 1];
 
 	void add(int u, int v, T w) { adj[u].emplace_back(v, w); adj[v].emplace_back(u, w); }
 
-	T min_path()
+	T min_path(int V = MAXV)
 	{
 		priority_queue<Node>().swap(pq);
 		fill(cost, cost + V + 1, INT_MAX);

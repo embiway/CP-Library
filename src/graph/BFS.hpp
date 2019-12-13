@@ -17,7 +17,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- int* min_path(int u)
+	- int* min_path(int v, int V = MAXV)
 		Time:  O(V + E)
 		Space: O(V + E)
 
@@ -35,18 +35,18 @@
 
 using namespace std;
 
-template <const int V>
+template <const int MAXV>
 struct BFS
 {
-	vector<int> adj[V + 1];
+	vector<int> adj[MAXV + 1];
 	queue<int> q;
-	int dist[V + 1], parent[V + 1];
+	int dist[MAXV + 1], parent[MAXV + 1];
 
 	void add(int u, int v) { adj[u].push_back(v); }
 
 	void add_bi(int u, int v) { add(u, v); add(v, u); }
 
-	int* min_path(int v)
+	int* min_path(int v, int V = MAXV)
 	{
 		queue<int>().swap(q);
 		fill(dist, dist + V + 1, INT_MAX);
@@ -81,5 +81,5 @@ struct BFS
 		return res;
 	}
 
-	void clear() { for (int i = 0; i <= V; i++) adj[i].clear(); }
+	void clear() { for (int i = 0; i <= MAXV; i++) adj[i].clear(); }
 };

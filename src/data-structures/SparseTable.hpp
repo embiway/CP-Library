@@ -7,7 +7,7 @@
         Time:  O(1)
         Space: O(N * log N)
     
-    - void init(auto& arr)
+    - void init(const auto& a, const int N = MAXN)
         Time:  O(N * log N)
         Space: O(1)
         
@@ -21,16 +21,16 @@
 
 using namespace std;
 
-template <const int N, typename T>
+template <const int MAXN, typename T>
 struct SparseTable
 {
-    static const int LG = 32 - __builtin_clz(N);
-    int lg[N + 1];
-    T st[N][LG];
+    static const int LG = 32 - __builtin_clz(MAXN);
+    int lg[MAXN + 1];
+    T st[MAXN][LG];
     
-    void init(const auto& arr)
+    void init(const auto& a, const int N = MAXN)
     {
-        for (int i = 0; i < N; i++) st[i][0] = arr[i];
+        for (int i = 0; i < N; i++) st[i][0] = a[i];
         lg[1] = 0;
         for (int i = 2; i <= N; i++) lg[i] = lg[i >> 1] + 1;
         

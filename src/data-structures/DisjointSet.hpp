@@ -32,12 +32,12 @@ using namespace std;
         Space: O(1)
 */
 
-template <const int N>
+template <const int MAXN>
 struct DisjointSet
 {
-    int parent[N + 1], sz[N + 1];
+    int parent[MAXN + 1], sz[MAXN + 1];
     
-    void init()
+    void init(int N = MAXN)
     {
         for (int i = 1; i <= N; i++) parent[i] = i;
         memset(sz, 1, sizeof(sz));

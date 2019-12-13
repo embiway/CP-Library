@@ -11,11 +11,11 @@
         Time:  O(1)
         Space: O(1)
         
-    - void init(const auto& a, const int sz)
+    - void init(const auto& a, const int N = MAXN)
         Time:  O(N)
         Space: O(1)
         
-    - void update(int i, T x)
+    - void update(int i, const T x, const int N = MAXN)
         Time:  O(log N)
         Space: O(1)
         
@@ -33,25 +33,25 @@
 
 using namespace std;
 
-template <const int N, typename T>
+template <const int MAXN, typename T>
 struct BIT
 {
-    T bit[N + 1];
+    T bit[MAXN + 1];
     
     void init() { memset(bit, 0, sizeof(bit)); }
     
-    void init(const auto& a, const int sz)
+    void init(const auto& a, const int N = MAXN)
     {
         memset(bit, 0, sizeof(bit));
-        for (int i = 1; i <= sz; i++)
+        for (int i = 1; i <= N; i++)
         {
             bit[i] += a[i];
             int idx = i + (i & -i);
-            if (idx <= sz) bit[idx] += bit[i];
+            if (idx <= N) bit[idx] += bit[i];
         }
     }
     
-    void update(int i, const T x)
+    void update(int i, const T x, const int N = MAXN)
     {
         for (; i <= N; i += i & -i) bit[i] += x;
     }

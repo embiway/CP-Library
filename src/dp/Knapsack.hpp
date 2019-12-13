@@ -23,7 +23,6 @@ namespace Knapsack
     T small_w(const int N, const int W, const auto& w, const auto& v)
     {
         vector<T> dp(W + 1);
-
         for (int i = 0; i < N; i++)
         {
             for (int j = W; j >= w[i]; j--) dp[j] = max(dp[j], dp[j - w[i]] + v[i]);

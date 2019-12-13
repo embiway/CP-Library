@@ -5,11 +5,11 @@
 		Time:  O(1)
 		Space: O(N)
 
-	- void init(T arr[])
+	- void init(const auto& a, const int N = MAXN)
 		Time:  O(N)
 		Space: O(1)
 
-	- int get_length()
+	- int get_length(const int N = MAXN)
 		Time:  O(N * log N)
 		Space: O(N)
 
@@ -23,20 +23,20 @@
 
 using namespace std;
 
-template <const int N, typename T>
+template <const int MAXN, typename T>
 struct LIS
 {
-	T arr[N], dp[N];
+	T a[MAXN], dp[MAXN];
 
-	void init(T arr[]) { for (int i = 0; i < N; i++) this->arr[i] = arr[i]; }
+	void init(const auto& a, const int N = MAXN) { for (int i = 0; i < N; i++) this->a[i] = a[i]; }
 
-	int get_length()
+	int get_length(const int N = MAXN)
 	{
 		int len = 0;
 		for (int i = 0; i < N; i++)
 		{
-			int x = lower_bound(dp, dp + len, arr[i]) - dp;
-			dp[x] = arr[i];
+			int x = lower_bound(dp, dp + len, a[i]) - dp;
+			dp[x] = a[i];
 			if (x == len) ++len;
 		}
 		return len;

@@ -17,7 +17,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- T* min_path(int v)
+	- T* min_path(int v, int V = MAXV)
 		Time:  O(V * E)
 		Space: O(V + E)
 
@@ -39,7 +39,7 @@
 
 using namespace std;
 
-template <const int V, typename T>
+template <const int MAXV, typename T>
 struct BellmanFord
 {
 	struct Edge
@@ -53,22 +53,22 @@ struct BellmanFord
 
 	const T INF = numeric_limits<T>::max();
 	vector<Edge> graph;
-	T dist[V + 1];
-	int parent[V + 1];
+	T dist[MAXV + 1];
+	int parent[MAXV + 1];
 	bool neg_cycle;
 
 	void add(int u, int v, T w) { graph.emplace_back(u, v, w); }
 
 	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
 
-	T* min_path(int v)
+	T* min_path(int v, int V = MAXV)
 	{
 		fill(dist, dist + V + 1, INF);
 		memset(parent, -1, sizeof(parent));
 		neg_cycle = false;
 
 		dist[v] = 0;
-		for (int i = 0; i < V; i++)
+		for (int i = 0; i <= V; i++)
 		{
 			for (const auto& g : graph)
 			{

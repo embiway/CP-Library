@@ -24,7 +24,7 @@
 
 using namespace std;
 
-template <const int N, typename T>
+template <const int MAXN, typename T>
 struct StaticCHT
 {
 	struct Line
@@ -36,7 +36,7 @@ struct StaticCHT
 	};
 
     int ptr, sz;
-    Line v[N];
+    Line v[MAXN];
     
     void init() { sz = ptr = 0; }
     

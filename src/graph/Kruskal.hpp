@@ -11,7 +11,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- T min_path()
+	- T min_path(const int V = MAXV)
 		Time:  O(E * log E)
 		Space: O(V + E)
 
@@ -30,7 +30,7 @@
 
 using namespace std;
 
-template <const int V, typename T>
+template <const int MAXV, typename T>
 struct Kruskal
 {
 	struct Edge
@@ -43,11 +43,11 @@ struct Kruskal
 	};
 
 	vector<Edge> graph, mst;
-	DisjointSet<V> ds;
+	DisjointSet<MAXV> ds;
 
 	void add(int u, int v, T w) { graph.emplace_back(u, v, w); }
 
-	T min_path()
+	T min_path(const int V = MAXV)
 	{
 		ds.init();
 		sort(graph.begin(), graph.end());

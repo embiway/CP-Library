@@ -19,7 +19,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- T* min_path(int v)
+	- T* min_path(int v, int V = MAXV)
 		Time:  O((V + E) * log V)
 		Space: O(V + E)
 
@@ -37,7 +37,7 @@
 
 using namespace std;
 
-template <const int V, typename T>
+template <const int MAXV, typename T>
 struct Dijkstra
 {
 	struct Node
@@ -50,16 +50,16 @@ struct Dijkstra
 	};
 
 	const T INF = numeric_limits<T>::max();
-	vector<Node> adj[V + 1];
+	vector<Node> adj[MAXV + 1];
 	priority_queue<Node> pq;
-	T dist[V + 1];
-	int parent[V + 1];
+	T dist[MAXV + 1];
+	int parent[MAXV + 1];
 
 	void add(int u, int v, T w) { adj[u].emplace_back(v, w); }
 
 	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
 
-	T* min_path(int v)
+	T* min_path(int v, int V = MAXV)
 	{
 		priority_queue<Node>().swap(pq);
 		fill(dist, dist + V + 1, INF);
@@ -97,5 +97,5 @@ struct Dijkstra
 		return res;
 	}
 
-	void clear() { for (int i = 0; i <= V; i++) adj[i].clear(); }
+	void clear() { for (int i = 0; i <= MAXV; i++) adj[i].clear(); }
 };

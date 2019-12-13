@@ -25,10 +25,10 @@
 
 using namespace std;
 
-template <const int N>
+template <const int MAXN>
 struct KMP
 {
-	int LPS[N];
+	int LPS[MAXN];
 	string pat;
 	vector<int> match;
 
