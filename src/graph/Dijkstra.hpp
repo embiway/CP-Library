@@ -1,7 +1,7 @@
 /*
 	Implementation of Dijkstra's algorithm with std::priority_queue and
-	a custom node. Similar to the BFS implementation, min_path() returns the
-	dist[] array, where the disconnected nodes have a value of
+	a custom node. Similar to the BFS implementation, min_path() performs
+	the BFS algorithm, where the disconnected nodes have a value of
 	numeric_limits<T>::max(). The get_path() function takes in an argument,
 	the destination, and returns a vector of a shortest path from the
 	source (given in min_path() argument), to the destination. Keep in mind,
@@ -19,7 +19,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- T* min_path(int v, int V = MAXV)
+	- void min_path(int v, int V = MAXV)
 		Time:  O((V + E) * log V)
 		Space: O(V + E)
 
@@ -52,18 +52,18 @@ struct Dijkstra
 	const T INF = numeric_limits<T>::max();
 	vector<Node> adj[MAXV + 1];
 	priority_queue<Node> pq;
-	vector<T> dist = vector<T>(MAXV + 1);
-	vector<int> parent = vector<int>(MAXV + 1);
+	T dist[MAXV + 1];
+	int parent[MAXV + 1];
 
 	void add(int u, int v, T w) { adj[u].emplace_back(v, w); }
 
 	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
 
-	vector<T> min_path(int v, int V = MAXV)
+	void min_path(int v, int V = MAXV)
 	{
 		priority_queue<Node>().swap(pq);
-		fill(dist.begin(), dist.end(), INF);
-		fill(parent.begin(), parent.end(), -1);
+		fill(dist, dist + V + 1, INF);
+		memset(parent, -1, sizeof(parent));
 
 		pq.emplace(v, 0);
 		dist[v] = 0;
@@ -86,7 +86,6 @@ struct Dijkstra
 				}
 			}
 		}
-		return dist;
 	}
 
 	vector<int> get_path(int v)

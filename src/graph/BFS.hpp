@@ -1,9 +1,10 @@
 /*
 	Implementation of BFS (Breadth-First Search) with std::queue.
-	min_path() returns the dist[] array, where the disconnected nodes
-	have a value of INT_MAX. The get_path() function takes in an argument,
-	the destination, and returns a vector of a shortest path from the
-	source (given in min_path() argument), to the destination.
+	min_path() performs the BFS algorithm, where the disconnected
+	nodes have a value of numeric_limits<T>::max(). The get_path()
+	function takes in an argument, the destination, and returns a
+	vector of a shortest path from the source (given in min_path()
+	argument), to the destination.
 
 	- CONSTRUCTION
 		Time:  O(1)
@@ -38,18 +39,19 @@ using namespace std;
 template <const int MAXV>
 struct BFS
 {
-	vector<int> adj[MAXV + 1], dist = vector<int>(MAXV + 1), parent = vector<int>(MAXV + 1);
+	vector<int> adj[MAXV + 1];
 	queue<int> q;
+	int dist[MAXV + 1], parent[MAXV + 1];
 
 	void add(int u, int v) { adj[u].push_back(v); }
 
 	void add_bi(int u, int v) { add(u, v); add(v, u); }
 
-	vector<int> min_path(int v, int V = MAXV)
+	void min_path(int v, int V = MAXV)
 	{
 		queue<int>().swap(q);
-		fill(dist.begin(), dist.end(), INT_MAX);
-		fill(parent.begin(), parent.end(), -1);
+		fill(dist, dist + MAXV + 1, INT_MAX);
+		memset(parent, -1, sizeof(parent));
 
 		q.push(v);
 		dist[v] = 0;
@@ -69,7 +71,6 @@ struct BFS
 				}
 			}
 		}
-		return dist;
 	}
 
 	vector<int> get_path(int v)
