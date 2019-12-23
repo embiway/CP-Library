@@ -54,7 +54,7 @@ struct KMP
 	vector<int> search_all(const string& txt)
 	{
 		match.clear();
-		for (int i = 0, j = 0; i < txt.size(); i++, j++)
+		for (int i = 0, j = 0; i < int(txt.size()); i++, j++)
 		{
 			while (j >= 0 && txt[i] != pat[j]) j = LPS[j];
 			if (j == int(pat.size()) - 1) match.push_back(abs(i - j));
