@@ -57,7 +57,7 @@ struct KMP
 		for (int i = 0, j = 0; i < txt.size(); i++, j++)
 		{
 			while (j >= 0 && txt[i] != pat[j]) j = LPS[j];
-			if (j == pat.size() - 1) match.push_back(abs(i - j));
+			if (j == int(pat.size()) - 1) match.push_back(abs(i - j));
 		}
 		return match;
 	}
