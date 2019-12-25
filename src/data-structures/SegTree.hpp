@@ -1,8 +1,8 @@
 /*
-	Implementation of iterative Segment Tree which supports range-max
+	Implementation of iterative Segment Tree which supports range
 	query and point update. The Segment Tree is useful because it is
-	very versatile, as it can do basically any math function as a
-	query. Keep in mind that the queries are 0-indexed, and range is [l, r).
+	very versatile, as it can perform many operations. Keep in mind
+	that the queries are 0-indexed, and range is [l, r).
 
 	- CONSTRUCTION
 		Time:  O(1)
@@ -39,7 +39,7 @@ struct SegTree
 	T tree[2 * MAXN];
 	const T DEFAULT = 0;
 
-	T merge(T left, T right) { return left + right; }
+	T merge(T left, T right); // query type?
 
 	void build(const auto& a, const int N)
 	{

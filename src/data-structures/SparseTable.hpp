@@ -1,7 +1,7 @@
 /*
-    Sparse Table implementation on Range Minimum Query (can be modified
-    for other query types).
-    Also stores table of 'log2' for faster queries.
+    Sparse Table implementation on Range Minimum Query (can be modified for any
+    associative and idempotent query type). Also stores table of 'log2' for faster
+    queries. Keep in mind, the range is zero-indexed and cover [l, r].
     
     - CONSTRUCTION
         Time:  O(1)
@@ -24,21 +24,23 @@ using namespace std;
 template <const int MAXN, typename T>
 struct SparseTable
 {
-    static const int LG = 32 - __builtin_clz(MAXN);
+    static const int MAXLG = 32 - __builtin_clz(MAXN);
     int lg[MAXN + 1];
-    T st[MAXN][LG];
+    T st[MAXLG][MAXN];
     
     void init(const auto& a, const int N = MAXN)
     {
-        for (int i = 0; i < N; i++) st[i][0] = a[i];
+    	const int LG = 32 - __builtin_clz(N);
+        for (int i = 0; i < N; i++) st[0][i] = a[i];
+
         lg[1] = 0;
         for (int i = 2; i <= N; i++) lg[i] = lg[i >> 1] + 1;
         
-        for (int j = 1; j <= LG; j++)
+        for (int j = 0; j < LG - 1; j++)
         {
-            for (int i = 0; i + (1 << j) <= N; i++)
+            for (int i = 0; i + (1 << j) < N; i++)
             {
-                st[i][j] = min(st[i][j - 1], st[i + (1 << (j - 1))][j - 1]);
+                st[j + 1][i] = min(st[j][i], st[j][i + (1 << j)]);
             }
         }
     }
@@ -46,6 +48,6 @@ struct SparseTable
     T query(const int l, const int r)
     {
         int k = lg[r - l + 1];
-        return min(st[l][k], st[r - (1 << k) + 1][k]);
+        return min(st[k][l], st[k][r - (1 << k) + 1]);
     }
 };
