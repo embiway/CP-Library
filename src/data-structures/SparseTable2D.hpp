@@ -60,6 +60,6 @@ struct SparseTable2D
 	{
 		int kr = lg[d - u + 1], kc = lg[r - l + 1];
 		return min(min(st[kr][u][kc][l], st[kr][u][kc][r - (1 << kc) + 1]),
-				   min(st[kr][d - (1 << kr) + 1][kc][l], st[kr][d - (1 << kr) + 1][kc][r - (1 << kc) + 1]));
+		           min(st[kr][d - (1 << kr) + 1][kc][l], st[kr][d - (1 << kr) + 1][kc][r - (1 << kc) + 1]));
 	}
 };
