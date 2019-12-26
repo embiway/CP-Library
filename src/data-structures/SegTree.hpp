@@ -7,24 +7,20 @@
 	- CONSTRUCTION
 		Time:  O(1)
 		Space: O(N)
-	- void build(const auto& a, const int N)
+	- void init(const auto& a, const int N = MAXN)
 		Time:  O(N)
 		Space: O(1)
 		
-	- void build(const int N)
+	- void init(const int N = MAXN)
 		Time:  O(N)
 		Space: O(1)
 
-	- void update(int i, const T v, const int N)
+	- void update(int i, const T v, const int N = MAXN)
 		Time:  O(log N)
 		Space: O(1)
 
-	- T query(int l, int r, const int N)
+	- T query(int l, int r, const int N = MAXN)
 		Time:  O(log N)
-		Space: O(1)
-
-	- void clear()
-		Time:  O(1)
 		Space: O(1)
 */
 
@@ -37,28 +33,30 @@ template <const int MAXN, typename T>
 struct SegTree
 {
 	T tree[2 * MAXN];
-	const T DEFAULT = 0;
+	const T DEFAULT; // default value?
 
 	T merge(T left, T right); // query type?
 
-	void build(const auto& a, const int N)
+	void init(const auto& a, const int N = MAXN)
 	{
+		fill(tree, tree + MAXN, DEFAULT);
 		for (int i = 0; i < N; i++) tree[N + i] = a[i];
 		for (int i = N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	void build(const int N)
+	void init(const int N = MAXN)
 	{
+		fill(tree, tree + MAXN, DEFAULT);
 	    for (int i = 0; i < N; i++) tree[N + i] = DEFAULT;
 		for (int i = N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	void update(int i, const T v, const int N)
+	void update(int i, const T v, const int N = MAXN)
 	{
 		for (i += N, tree[i] = v; i >>= 1; ) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	T query(int l, int r, const int N)
+	T query(int l, int r, const int N = MAXN)
 	{
 		T resl = DEFAULT, resr = DEFAULT;
 		for (l += N, r += N; l < r; l >>= 1, r >>= 1)
@@ -68,6 +66,4 @@ struct SegTree
 		}
 		return merge(resl, resr);
 	}
-
-	void clear() { memset(tree, DEFAULT, sizeof(tree)); }
 };
