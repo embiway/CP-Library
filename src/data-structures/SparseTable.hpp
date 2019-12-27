@@ -50,6 +50,6 @@ struct SparseTable
     T query(const int l, const int r)
     {
         int k = lg[r - l + 1];
-        return min(st[k][l], st[k][r - (1 << k) + 1]);
+        return merge(st[k][l], st[k][r - (1 << k) + 1]);
     }
 };
