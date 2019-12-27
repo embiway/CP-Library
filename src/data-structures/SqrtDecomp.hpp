@@ -32,14 +32,14 @@ using namespace std;
 template <const int MAXN, const int MAXBLKSZ, typename T>
 struct SqrtDecomp
 {
-	T blocks[MAXN / MAXBLKSZ + 1], arr[MAXN];
-	const T DEFAULT; // default value?
+	T blocks[MAXN / MAXBLKSZ], arr[MAXN];
+	const T DEFAULT = INT_MAX; // default value?
 
-	T merge(T left, T right); // query type?
+	T merge(T left, T right) {return min(left, right);}; // query type?
 
 	void init(const auto& a, const int N = MAXN, const int BLKSZ = MAXBLKSZ)
 	{
-		fill(blocks, blocks + N / BLKSZ + 1, DEFAULT);
+		fill(blocks, blocks + N / BLKSZ, DEFAULT);
 		for (int i = 0; i < N; i++)
 		{
 			int idx = i / BLKSZ;
@@ -49,7 +49,7 @@ struct SqrtDecomp
 
 	void init(const int N = MAXN, const int BLKSZ = MAXBLKSZ)
 	{
-		fill(blocks, blocks + N / BLKSZ + 1, DEFAULT);
+		fill(blocks, blocks + N / BLKSZ, DEFAULT);
 		for (int i = 0; i < N; i++)
 		{
 			int idx = i / BLKSZ;
