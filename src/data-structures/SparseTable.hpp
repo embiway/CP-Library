@@ -28,6 +28,8 @@ struct SparseTable
     int lg[MAXN + 1];
     T st[MAXLG][MAXN];
     
+    T merge(T left, T right); // query type?
+
     void init(const auto& a, const int N = MAXN)
     {
     	const int LG = 32 - __builtin_clz(N);
@@ -40,7 +42,7 @@ struct SparseTable
         {
             for (int i = 0; i + (1 << j) < N; i++)
             {
-                st[j + 1][i] = min(st[j][i], st[j][i + (1 << j)]);
+                st[j + 1][i] = merge(st[j][i], st[j][i + (1 << j)]);
             }
         }
     }
