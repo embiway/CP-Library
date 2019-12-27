@@ -1,7 +1,8 @@
 /*
 	Implementation of Square Root Decomposition, with range query
 	and point update. Sqrt Decomp is advantageous in that it is quite
-	versatile, althought time complexity is not as good.
+	versatile, althought time complexity is not as good. The optimal block
+	size is sqrt(N), giving a query time of O(sqrt(N)).
 
 	- CONSTRUCTION
 		Time:  O(1)
@@ -20,7 +21,7 @@
 		Space: O(1)
 
 	- T query(const int l, const int r, const int N = MAXN, const int BLKSZ = MAXBLKSZ)
-		Time:  O(sqrt(N))
+		Time:  O(N / B + B)
 		Space: O(1)
 */
 
@@ -33,9 +34,9 @@ template <const int MAXN, const int MAXBLKSZ, typename T>
 struct SqrtDecomp
 {
 	T blocks[MAXN / MAXBLKSZ], arr[MAXN];
-	const T DEFAULT = INT_MAX; // default value?
+	const T DEFAULT; // default value?
 
-	T merge(T left, T right) {return min(left, right);}; // query type?
+	T merge(T left, T right); // query type?
 
 	void init(const auto& a, const int N = MAXN, const int BLKSZ = MAXBLKSZ)
 	{
