@@ -7,15 +7,15 @@
         Time:  O(1)
         Space: O(N)
 
-    - void init()
+    - void init(const int N = MAXN)
         Time:  O(1)
         Space: O(1)
 
-    - void init(const auto& a, const int N)
+    - void init(const auto& a, const int N = MAXN)
     	Time:  O(N * log N)
     	Space: O(1)
 
-    - void update(const int l, const int r, const T x, const int N = MAXN)
+    - void update(const int l, const int r, const T x)
         Time:  O(log N)
         Space: O(1)
 
@@ -33,18 +33,20 @@ template <const int MAXN, typename T>
 struct BITRangePoint
 {
 	T bit[MAXN + 1];
+	int _N;
 
-	void init() { memset(bit, 0, sizeof(bit)); }
+	void init(const int N = MAXN) { _N = N; memset(bit, 0, sizeof(bit)); }
 
-	void init(const auto& a, const int N)
+	void init(const auto& a, const int N = MAXN)
 	{
-		for (int i = 1; i <= N; i++) update(i, i, a[i]);
+		_N = N;
+		for (int i = 1; i <= _N; i++) update(i, i, a[i]);
 	}
 
-	void update(const int l, const int r, const T x, const int N = MAXN)
+	void update(const int l, const int r, const T x)
 	{
-		_update(l, x, N);
-		_update(r + 1, -x, N);
+		_update(l, x);
+		_update(r + 1, -x);
 	}
 
 	T query(int i)
@@ -55,8 +57,8 @@ struct BITRangePoint
 	}
 
 private:
-	void _update(int i, const T x, const int N = MAXN)
+	void _update(int i, const T x)
 	{
-		for (; i <= N; i += i & -i) bit[i] += x;
+		for (; i <= _N; i += i & -i) bit[i] += x;
 	}
 };

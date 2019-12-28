@@ -7,7 +7,7 @@
         Time:  O(1)
         Space: O(N * M)
 
-    - void init()
+    - void init(const int N = MAXN, const int M = MAXM)
         Time:  O(1)
         Space: O(1)
 
@@ -15,7 +15,7 @@
         Time:  O(N * M * log N * log M)
         Space: O(1)
 
-    - void update(int i, int j, const T x, const int N = MAXN, const int M = MAXM)
+    - void update(int i, int j, const T x)
         Time:  O(log N * log M)
         Space: O(1)
 
@@ -37,17 +37,19 @@ template <const int MAXN, const int MAXM, typename T>
 struct BIT2D
 {
     T bit2d[MAXN + 1][MAXM + 1];
+    int _N, _M;
 
-    void init() { memset(bit2d, 0, sizeof(bit2d)); }
+    void init(const int N = MAXN, const int M = MAXM) { _N = N, _M = M; memset(bit2d, 0, sizeof(bit2d)); }
 
     void init(const auto& a, const int N = MAXN, const int M = MAXM)
     {
-    	for (int i = 1; i <= N; i++) for (int j = 1; j <= M; j++) update(i, j, a[i][j]);
+    	_N = N, _M = M;
+    	for (int i = 1; i <= _N; i++) for (int j = 1; j <= _M; j++) update(i, j, a[i][j]);
     }
 
-    void update(int i, int j, const T x, const int N = MAXN, const int M = MAXM)
+    void update(int i, int j, const T x)
     {
-        for (int ii = i; ii <= N; ii += ii & -ii) for (int jj = j; jj <= M; jj += jj & -jj) bit2d[ii][jj] += x;
+        for (int ii = i; ii <= _N; ii += ii & -ii) for (int jj = j; jj <= _M; jj += jj & -jj) bit2d[ii][jj] += x;
     }
 
     T query(int i, int j)

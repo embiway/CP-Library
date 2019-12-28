@@ -7,7 +7,7 @@
         Time:  O(1)
         Space: O(N)
         
-    - void init()
+    - void init(const int N = MAXN)
         Time:  O(1)
         Space: O(1)
         
@@ -15,7 +15,7 @@
         Time:  O(N)
         Space: O(1)
         
-    - void update(int i, const T x, const int N = MAXN)
+    - void update(int i, const T x)
         Time:  O(log N)
         Space: O(1)
         
@@ -37,13 +37,16 @@ template <const int MAXN, typename T>
 struct BIT
 {
     T bit[MAXN + 1];
+    int _N;
     
-    void init() { memset(bit, 0, sizeof(bit)); }
+    void init(const int N = MAXN) { _N = N; memset(bit, 0, sizeof(bit)); }
     
     void init(const auto& a, const int N = MAXN)
     {
+    	_N = N;
         memset(bit, 0, sizeof(bit));
-        for (int i = 1; i <= N; i++)
+
+        for (int i = 1; i <= _N; i++)
         {
             bit[i] += a[i];
             int idx = i + (i & -i);
@@ -51,9 +54,9 @@ struct BIT
         }
     }
     
-    void update(int i, const T x, const int N = MAXN)
+    void update(int i, const T x)
     {
-        for (; i <= N; i += i & -i) bit[i] += x;
+        for (; i <= _N; i += i & -i) bit[i] += x;
     }
     
     T query(int i)

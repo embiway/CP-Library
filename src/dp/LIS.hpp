@@ -9,7 +9,7 @@
 		Time:  O(N)
 		Space: O(1)
 
-	- int get_length(const int N = MAXN)
+	- int get_length()
 		Time:  O(N * log N)
 		Space: O(N)
 
@@ -27,13 +27,14 @@ template <const int MAXN, typename T>
 struct LIS
 {
 	T a[MAXN], dp[MAXN];
+	int _N;
 
-	void init(const auto& a, const int N = MAXN) { for (int i = 0; i < N; i++) this->a[i] = a[i]; }
+	void init(const auto& a, const int N = MAXN) { _N = N; for (int i = 0; i < _N; i++) this->a[i] = a[i]; }
 
-	int get_length(const int N = MAXN)
+	int get_length()
 	{
 		int len = 0;
-		for (int i = 0; i < N; i++)
+		for (int i = 0; i < _N; i++)
 		{
 			int x = lower_bound(dp, dp + len, a[i]) - dp;
 			dp[x] = a[i];

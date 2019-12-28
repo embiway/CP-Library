@@ -9,11 +9,11 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- void add(int u, int v, T w)
+	- void add(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- T min_path(int V = MAXV)
+	- T min_path(const int V = MAXV)
 		Time:  O(E * log V)
 		Space: O(V + E)
 
@@ -59,9 +59,9 @@ struct Prim
 	bool visited[MAXV + 1];
 	pair<int, T> parent[MAXV + 1];
 
-	void add(int u, int v, T w) { adj[u].emplace_back(v, w); adj[v].emplace_back(u, w); }
+	void add(const int u, const int v, const T w) { adj[u].emplace_back(v, w); adj[v].emplace_back(u, w); }
 
-	T min_path(int V = MAXV)
+	T min_path(const int V = MAXV)
 	{
 		priority_queue<Node>().swap(pq);
 		fill(cost, cost + V + 1, INT_MAX);

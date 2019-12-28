@@ -9,15 +9,15 @@
 		Time:  O(1)
 		Space: O(V)
 
-	- void add(int u, int v, T w)
+	- void add(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- void add_bi(int u, int v, T w)
+	- void add_bi(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- T* min_path(int v, int V = MAXV)
+	- T* min_path(const int v, const int V = MAXV)
 		Time:  O(V * E)
 		Space: O(V + E)
 
@@ -57,11 +57,11 @@ struct BellmanFord
 	int parent[MAXV + 1];
 	bool neg_cycle;
 
-	void add(int u, int v, T w) { graph.emplace_back(u, v, w); }
+	void add(const int u, const int v, const T w) { graph.emplace_back(u, v, w); }
 
-	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
+	void add_bi(const int u, const int v, const T w) { add(u, v, w); add(v, u, w); }
 
-	T* min_path(int v, int V = MAXV)
+	T* min_path(const int v, const int V = MAXV)
 	{
 		fill(dist, dist + V + 1, INF);
 		memset(parent, -1, sizeof(parent));

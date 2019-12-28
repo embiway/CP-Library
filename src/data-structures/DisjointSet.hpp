@@ -11,11 +11,11 @@ using namespace std;
         Time:  O(1)
         Space: O(N)
     
-    - void init()
+    - void init(const int N = MAXN)
         Time:  O(N)
         Space: O(1)
         
-    - int find(int v)
+    - int find(const int v)
         Time:  O(α(N))
         Space: O(α(N))
         
@@ -23,11 +23,11 @@ using namespace std;
         Time:  O(α(N))
         Space: O(α(N))
         
-    - bool connected(int v, int w)
+    - bool connected(const int v, const int w)
         Time:  O(α(N))
         Space: O(α(N))
         
-    - bool size(int v)
+    - bool size(const int v)
         Time:  O(1)
         Space: O(1)
 */
@@ -37,13 +37,13 @@ struct DisjointSet
 {
     int parent[MAXN + 1], sz[MAXN + 1];
     
-    void init(int N = MAXN)
+    void init(const int N = MAXN)
     {
         for (int i = 1; i <= N; i++) parent[i] = i;
         memset(sz, 1, sizeof(sz));
     }
     
-    int find(int v) { return v == parent[v] ? v : parent[v] = find(parent[v]); }
+    int find(const int v) { return v == parent[v] ? v : parent[v] = find(parent[v]); }
     
     bool join(int v, int w)
     {
@@ -54,7 +54,7 @@ struct DisjointSet
         return true;
     }
     
-    bool connected(int v, int w) { return find(v) == find(w); }
+    bool connected(const int v, const int w) { return find(v) == find(w); }
     
-    bool size(int v) { return sz[find(v)]; }
+    bool size(const int v) { return sz[find(v)]; }
 };

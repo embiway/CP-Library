@@ -7,7 +7,7 @@
 		Time:  O(1)
 		Space: O(1)
 
-	- void add(int u, int v, T w)
+	- void add(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
@@ -45,7 +45,7 @@ struct Kruskal
 	vector<Edge> graph, mst;
 	DisjointSet<MAXV> ds;
 
-	void add(int u, int v, T w) { graph.emplace_back(u, v, w); }
+	void add(const int u, const int v, const T w) { graph.emplace_back(u, v, w); }
 
 	T min_path(const int V = MAXV)
 	{

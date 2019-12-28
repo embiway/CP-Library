@@ -25,22 +25,23 @@ template <const int MAXN, typename T>
 struct SparseTable
 {
     static const int MAXLG = 32 - __builtin_clz(MAXN);
-    int lg[MAXN + 1];
     T st[MAXLG][MAXN];
+    int lg[MAXN + 1], _N;
     
     T merge(T left, T right); // query type?
 
     void init(const auto& a, const int N = MAXN)
     {
-    	const int LG = 32 - __builtin_clz(N);
-        for (int i = 0; i < N; i++) st[0][i] = a[i];
+    	_N = N;
+    	const int LG = 32 - __builtin_clz(_N);
+        for (int i = 0; i < _N; i++) st[0][i] = a[i];
 
         lg[1] = 0;
-        for (int i = 2; i <= N; i++) lg[i] = lg[i >> 1] + 1;
+        for (int i = 2; i <= _N; i++) lg[i] = lg[i >> 1] + 1;
         
         for (int j = 0; j < LG; j++)
         {
-            for (int i = 0; i + (1 << j) < N; i++)
+            for (int i = 0; i + (1 << j) < _N; i++)
             {
                 st[j + 1][i] = merge(st[j][i], st[j][i + (1 << j)]);
             }

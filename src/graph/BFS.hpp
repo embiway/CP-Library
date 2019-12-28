@@ -10,15 +10,15 @@
 		Time:  O(1)
 		Space: O(V)
 
-	- void add(int u, int v)
+	- void add(const int u, const int v)
 		Time:  O(1)
 		Space: O(1)
 
-	- void add_bi(int u, int v)
+	- void add_bi(const int u, const int v)
 		Time:  O(1)
 		Space: O(1)
 
-	- vector<int> min_path(int v, int V = MAXV)
+	- vector<int> min_path(const int v, const int V = MAXV)
 		Time:  O(V + E)
 		Space: O(V + E)
 
@@ -41,16 +41,17 @@ struct BFS
 {
 	vector<int> adj[MAXV + 1];
 	queue<int> q;
-	int dist[MAXV + 1], parent[MAXV + 1];
+	int dist[MAXV + 1], parent[MAXV + 1], _V;
 
-	void add(int u, int v) { adj[u].push_back(v); }
+	void add(const int u, const int v) { adj[u].push_back(v); }
 
-	void add_bi(int u, int v) { add(u, v); add(v, u); }
+	void add_bi(const int u, const int v) { add(u, v); add(v, u); }
 
-	void min_path(int v, int V = MAXV)
+	void min_path(const int v, const int V = MAXV)
 	{
+		_V = V;
 		queue<int>().swap(q);
-		fill(dist, dist + MAXV + 1, INT_MAX);
+		fill(dist, dist + _V + 1, INT_MAX);
 		memset(parent, -1, sizeof(parent));
 
 		q.push(v);
@@ -81,5 +82,5 @@ struct BFS
 		return res;
 	}
 
-	void clear() { for (int i = 0; i <= MAXV; i++) adj[i].clear(); }
+	void clear() { for (int i = 0; i <= _V; i++) adj[i].clear(); }
 };

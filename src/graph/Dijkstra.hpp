@@ -11,15 +11,15 @@
 		Time:  O(1)
 		Space: O(N)
 
-	- void add(int u, int v, T w)
+	- void add(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- void add_bi(int u, int v, T w)
+	- void add_bi(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- void min_path(int v, int V = MAXV)
+	- void min_path(const int v, const int V = MAXV)
 		Time:  O((V + E) * log V)
 		Space: O(V + E)
 
@@ -53,16 +53,17 @@ struct Dijkstra
 	vector<Node> adj[MAXV + 1];
 	priority_queue<Node> pq;
 	T dist[MAXV + 1];
-	int parent[MAXV + 1];
+	int parent[MAXV + 1], _V;
 
-	void add(int u, int v, T w) { adj[u].emplace_back(v, w); }
+	void add(const int u, const int v, const T w) { adj[u].emplace_back(v, w); }
 
-	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
+	void add_bi(const int u, const int v, const T w) { add(u, v, w); add(v, u, w); }
 
-	void min_path(int v, int V = MAXV)
+	void min_path(const int v, const int V = MAXV)
 	{
+		_V = V;
 		priority_queue<Node>().swap(pq);
-		fill(dist, dist + V + 1, INF);
+		fill(dist, dist + _V + 1, INF);
 		memset(parent, -1, sizeof(parent));
 
 		pq.emplace(v, 0);
@@ -96,5 +97,5 @@ struct Dijkstra
 		return res;
 	}
 
-	void clear() { for (int i = 0; i <= MAXV; i++) adj[i].clear(); }
+	void clear() { for (int i = 0; i <= _V; i++) adj[i].clear(); }
 };

@@ -8,19 +8,19 @@
 		Time:  O(1)
 		Space: O(N ^ 2)
 
-	- void init(int V = MAXV)
+	- void init(const int V = MAXV)
 		Time:  O(N)
 		Space: O(1)
 
-	- void add(int u, int v, T w)
+	- void add(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- void add_bi(int u, int v, T w)
+	- void add_bi(const int u, const int v, const T w)
 		Time:  O(1)
 		Space: O(1)
 
-	- void get_paths(const int V = MAXV)
+	- void get_paths()
 		Time:  O(N ^ 3)
 		Space: O(1)
 */
@@ -35,29 +35,31 @@ struct FloydWarshall
 {
 	const T INF = numeric_limits<T>::max();
 	T dist[MAXV][MAXV];
+	int _V;
 
-	void init(int V = MAXV)
+	void init(const int V = MAXV)
 	{
-		for (int i = 0; i < V; i++)
+		_V = V;
+		for (int i = 0; i < _V; i++)
 		{
-			fill(dist[i], dist[i] + V, INF);
+			fill(dist[i], dist[i] + _V, INF);
 			dist[i][i] = 0;
 		}
 	}
 
-	void add(int u, int v, T w) { dist[u][v] = min(dist[u][v], w); }
+	void add(const int u, const int v, const T w) { dist[u][v] = min(dist[u][v], w); }
 
-	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
+	void add_bi(const int u, const int v, const T w) { add(u, v, w); add(v, u, w); }
 
-	void get_paths(const int V = MAXV)
+	void get_paths()
 	{
-		for (int i = 0; i < V; i++)
+		for (int i = 0; i < _V; i++)
 		{
-			for (int j = 0; j < V; j++)
+			for (int j = 0; j < _V; j++)
 			{
 				if (dist[j][i] != INF)
 				{
-					for (int k = 0; k < V; k++)
+					for (int k = 0; k < _V; k++)
 					{
 						if (dist[i][k] != INF && dist[j][i] + dist[i][k] < dist[j][k])
 						{
@@ -68,11 +70,11 @@ struct FloydWarshall
 			}
 		}
 
-		for (int i = 0; i < V; i++)
+		for (int i = 0; i < _V; i++)
 		{
-			for (int j = 0; j < V; j++)
+			for (int j = 0; j < _V; j++)
 			{
-				for (int k = 0; k < V; k++)
+				for (int k = 0; k < _V; k++)
 				{
 					if (dist[k][k] < 0 && dist[i][k] != INF && dist[k][j] != INF)
 					{
