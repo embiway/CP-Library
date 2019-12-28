@@ -2,6 +2,18 @@
 	Implementation of a 2D Sparse Table. Essentially the same
 	as SparseTable.hpp, except it's 2D. Read this Codeforces
 	blog for more info: "https://codeforces.com/blog/entry/45485".
+
+	- CONSTRUCTION
+		Time:  O(1)
+		Space: O(N * M * log N * log M)
+
+	- void init(const auto& a, const int N = MAXN, const int M = MAXM)
+		Time:  O(N * M * log N * log M)
+		Space: O(1)
+
+	- T query(const int u, const int d, const int l, const int r)
+		Time:  O(1)
+		Space: O(1)
 */
 
 #pragma once
@@ -58,7 +70,7 @@ struct SparseTable2D
 		}
 	}
 
-	T query(int u, int d, int l, int r)
+	T query(const int u, const int d, const int l, const int r)
 	{
 		int kr = lg[d - u + 1], kc = lg[r - l + 1];
 		return merge(merge(st[kr][u][kc][l], st[kr][u][kc][r - (1 << kc) + 1]),
