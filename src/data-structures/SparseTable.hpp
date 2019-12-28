@@ -1,6 +1,6 @@
 /*
-    Sparse Table implementation on Range Minimum Query (can be modified for any
-    associative and idempotent query type). Also stores table of 'log2' for faster
+    Sparse Table implementation on Range Query (for any associative and
+    idempotent query type). Also stores table of 'log2' for faster
     queries. Keep in mind, the range is zero-indexed and cover [l, r].
     
     - CONSTRUCTION

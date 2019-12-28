@@ -16,6 +16,8 @@ struct SparseTable2D
 	int lg[max(MAXN, MAXM) + 1];
 	T st[MAXLGN][MAXN][MAXLGM][MAXM];
 
+	T merge(T left, T right); // query type?
+
 	void init(const auto& a, const int N = MAXN, const int M = MAXM)
 	{
 		const int LGN = 32 - __builtin_clz(N), LGM = 32 - __builtin_clz(M);
@@ -33,7 +35,7 @@ struct SparseTable2D
 			{
 				for (int ic = 0; ic + (1 << jc) < M; ic++)
 				{
-					st[0][ir][jc + 1][ic] = min(st[0][ir][jc][ic], st[0][ir][jc][ic + (1 << jc)]);
+					st[0][ir][jc + 1][ic] = merge(st[0][ir][jc][ic], st[0][ir][jc][ic + (1 << jc)]);
 				}
 			}
 		}
@@ -49,7 +51,7 @@ struct SparseTable2D
 				{
 					for (int ic = 0; ic < M; ic++)
 					{
-						st[jr + 1][ir][jc][ic] = min(st[jr][ir][jc][ic], st[jr][ir + (1 << jr)][jc][ic]);
+						st[jr + 1][ir][jc][ic] = merge(st[jr][ir][jc][ic], st[jr][ir + (1 << jr)][jc][ic]);
 					}
 				}
 			}
@@ -59,7 +61,7 @@ struct SparseTable2D
 	T query(int u, int d, int l, int r)
 	{
 		int kr = lg[d - u + 1], kc = lg[r - l + 1];
-		return min(min(st[kr][u][kc][l], st[kr][u][kc][r - (1 << kc) + 1]),
-		           min(st[kr][d - (1 << kr) + 1][kc][l], st[kr][d - (1 << kr) + 1][kc][r - (1 << kc) + 1]));
+		return merge(merge(st[kr][u][kc][l], st[kr][u][kc][r - (1 << kc) + 1]),
+		             merge(st[kr][d - (1 << kr) + 1][kc][l], st[kr][d - (1 << kr) + 1][kc][r - (1 << kc) + 1]));
 	}
 };
