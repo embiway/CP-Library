@@ -38,7 +38,7 @@ struct SparseTable
         lg[1] = 0;
         for (int i = 2; i <= N; i++) lg[i] = lg[i >> 1] + 1;
         
-        for (int j = 0; j < LG - 1; j++)
+        for (int j = 0; j < LG; j++)
         {
             for (int i = 0; i + (1 << j) < N; i++)
             {
