@@ -37,16 +37,16 @@ struct DisjointSet
 {
     int parent[MAXN + 1], sz[MAXN + 1];
     
-    void init(const int N = MAXN)
-    {
+    void init(const int N = MAXN) {
         for (int i = 1; i <= N; i++) parent[i] = i;
         memset(sz, 1, sizeof(sz));
     }
     
-    int find(const int v) { return v == parent[v] ? v : parent[v] = find(parent[v]); }
+    int find(const int v) {
+    	return v == parent[v] ? v : parent[v] = find(parent[v]);
+    }
     
-    bool join(int v, int w)
-    {
+    bool join(int v, int w) {
         if ((v = find(v)) == (w = find(w))) return false;
         if (sz[v] < sz[w]) swap(v, w);
         parent[w] = v;
@@ -54,7 +54,11 @@ struct DisjointSet
         return true;
     }
     
-    bool connected(const int v, const int w) { return find(v) == find(w); }
+    bool connected(const int v, const int w) {
+    	return find(v) == find(w);
+    }
     
-    bool size(const int v) { return sz[find(v)]; }
+    bool size(const int v) {
+    	return sz[find(v)];
+    }
 };

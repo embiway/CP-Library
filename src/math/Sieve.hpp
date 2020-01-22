@@ -20,59 +20,52 @@
 
 using namespace std;
 
-namespace Sieve
-{
+namespace Sieve {
 	#define ifc(x) (is_prime[(x) >> 6] & (1 << (((x) >> 1) & 31)))
 	#define isc(x) (is_prime[(x) >> 6] |= (1 << (((x) >> 1) & 31)))
     
 	template <typename T>
-	vector<T> get_primes(int N)
-	{
+	vector<T> get_primes(int N) {
 		vector<T> is_prime((N >> 6) + 1), res;
-		for (T i = 3; i * i <= N; i += 2)
-		{
-			if (!ifc(i))
-			{
-				for (T j = i * i, k = i << 1; j <= N; j += k) isc(j);
+		for (T i = 3; i * i <= N; i += 2) {
+			if (!ifc(i)) {
+				for (T j = i * i, k = i << 1; j <= N; j += k) {
+					isc(j);
+				}
 			}
 		}
-
 		if (N >= 2) res.push_back(2);
-		for (T i = 3; i <= N; i += 2)
-		{
-			if (!ifc(i)) res.push_back(i);
+		for (T i = 3; i <= N; i += 2) {
+			if (!ifc(i)) {
+				res.push_back(i);
+			}
 		}
 		return res;
 	}
     
 	template <typename T>
-	vector<T> get_primes_range(T A, T B)
-	{
+	vector<T> get_primes_range(T A, T B) {
 	    assert(A <= B);
         vector<T> primes = get_primes<T>(sqrt(B)), is_prime(((B - A + 1) >> 6) + 1), res;
-        
         if (B < 2) return res;
-        if (A < 3)
-        {
+        if (A < 3) {
         	if (A <= 2) res.push_back(2);
         	A = 3;
         }
         if ((A & 1) == 0) ++A;
-        
-        for (int i = 1; i < primes.size(); i++)
-        {
+        for (int i = 1; i < primes.size(); i++) {
             T p = primes[i], j = (A + p - 1) / p * p;
             if ((j & 1) == 0) j += p;
-
-            for (T k = p << 1; j <= B; j += k)
-            {
-                if (j != p) isc(j - A);
+            for (T k = p << 1; j <= B; j += k) {
+                if (j != p) {
+                	isc(j - A);
+                }
             }
         }
-        
-        for (T i = 0; i <= B - A; i += 2)
-        {
-            if (!ifc(i)) res.push_back(A + i);
+        for (T i = 0; i <= B - A; i += 2) {
+            if (!ifc(i)) {
+            	res.push_back(A + i);
+            }
         }
         return res;
 	}

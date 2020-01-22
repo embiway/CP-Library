@@ -31,53 +31,43 @@
 using namespace std;
 
 template <const int MAXV, typename T>
-struct FloydWarshall
-{
+struct FloydWarshall {
 	const T INF = numeric_limits<T>::max();
 	T dist[MAXV][MAXV];
 	int _V;
 
-	void init(const int V = MAXV)
-	{
+	void init(const int V = MAXV) {
 		_V = V;
-		for (int i = 0; i < _V; i++)
-		{
+		for (int i = 0; i < _V; i++) {
 			fill(dist[i], dist[i] + _V, INF);
 			dist[i][i] = 0;
 		}
 	}
 
-	void add(const int u, const int v, const T w) { dist[u][v] = min(dist[u][v], w); }
+	void add(const int u, const int v, const T w) {
+		dist[u][v] = min(dist[u][v], w);
+	}
 
-	void add_bi(const int u, const int v, const T w) { add(u, v, w); add(v, u, w); }
+	void add_bi(const int u, const int v, const T w) {
+		add(u, v, w); add(v, u, w);
+	}
 
-	void get_paths()
-	{
-		for (int i = 0; i < _V; i++)
-		{
-			for (int j = 0; j < _V; j++)
-			{
-				if (dist[j][i] != INF)
-				{
-					for (int k = 0; k < _V; k++)
-					{
-						if (dist[i][k] != INF && dist[j][i] + dist[i][k] < dist[j][k])
-						{
+	void get_paths() {
+		for (int i = 0; i < _V; i++) {
+			for (int j = 0; j < _V; j++) {
+				if (dist[j][i] != INF) {
+					for (int k = 0; k < _V; k++) {
+						if (dist[i][k] != INF && dist[j][i] + dist[i][k] < dist[j][k]) {
 							dist[j][k] = dist[j][i] + dist[i][k];
 						}
 					}
 				}
 			}
 		}
-
-		for (int i = 0; i < _V; i++)
-		{
-			for (int j = 0; j < _V; j++)
-			{
-				for (int k = 0; k < _V; k++)
-				{
-					if (dist[k][k] < 0 && dist[i][k] != INF && dist[k][j] != INF)
-					{
+		for (int i = 0; i < _V; i++) {
+			for (int j = 0; j < _V; j++) {
+				for (int k = 0; k < _V; k++) {
+					if (dist[k][k] < 0 && dist[i][k] != INF && dist[k][j] != INF) {
 						dist[i][j] = -INF;
 						break;
 					}

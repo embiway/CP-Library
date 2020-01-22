@@ -40,14 +40,10 @@
 using namespace std;
 
 template <const int MAXV, typename T>
-struct BellmanFord
-{
-	struct Edge
-	{
+struct BellmanFord {
+	struct Edge {
 		int u, v; T w;
-
 		Edge(int u, int v, T w) : u(u), v(v), w(w) {}
-
 		bool operator < (const Edge& e) const { return w < e.w; }
 	};
 
@@ -57,46 +53,48 @@ struct BellmanFord
 	int parent[MAXV + 1];
 	bool neg_cycle;
 
-	void add(const int u, const int v, const T w) { graph.emplace_back(u, v, w); }
+	void add(const int u, const int v, const T w) {
+		graph.emplace_back(u, v, w);
+	}
 
-	void add_bi(const int u, const int v, const T w) { add(u, v, w); add(v, u, w); }
+	void add_bi(const int u, const int v, const T w) {
+		add(u, v, w); add(v, u, w);
+	}
 
-	T* min_path(const int v, const int V = MAXV)
-	{
+	T* min_path(const int v, const int V = MAXV) {
 		fill(dist, dist + V + 1, INF);
 		memset(parent, -1, sizeof(parent));
 		neg_cycle = false;
-
 		dist[v] = 0;
-		for (int i = 0; i <= V; i++)
-		{
-			for (const auto& g : graph)
-			{
+		for (int i = 0; i <= V; i++) {
+			for (const auto& g : graph) {
 				T d = dist[g.u] + g.w;
-				if (dist[g.u] != INF && d < dist[g.v])
-				{
+				if (dist[g.u] != INF && d < dist[g.v]) {
 					dist[g.v] = d;
 					parent[g.v] = g.u;
 				}
 			}
 		}
-
-		for (const auto& i : graph)
-		{
-			if (dist[i.u] != INF && dist[i.u] + i.w < dist[i.v]) neg_cycle = true;
+		for (const auto& i : graph) {
+			if (dist[i.u] != INF && dist[i.u] + i.w < dist[i.v]) {
+				neg_cycle = true;
+			}
 		}
 		return dist;
 	}
 
-	vector<int> get_path(int v)
-	{
+	vector<int> get_path(int v) {
 		vector<int> res;
 		for (; v != -1; v = parent[v]) res.push_back(v);
 		reverse(res.begin(), res.end());
 		return res;
 	}
 
-	bool is_neg_cycle() { return neg_cycle; }
+	bool is_neg_cycle() {
+		return neg_cycle;
+	}
 
-	void clear() { graph.clear(); }
+	void clear() {
+		graph.clear();
+	}
 };

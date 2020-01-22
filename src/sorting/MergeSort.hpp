@@ -16,28 +16,22 @@
 using namespace std;
 
 template <typename T>
-void merge(T arr[], int start, int mid, int end)
-{
+void merge(T arr[], int start, int mid, int end) {
 	T *temp = new T[end - start + 1];
 	int idx = 0;
-
-	for (int i = start, p = start, q = mid + 1; i <= end; i++)
-	{
+	for (int i = start, p = start, q = mid + 1; i <= end; i++) {
 		if (p > mid) 	  		  temp[idx++] = arr[q++];
 		else if (q > end) 		  temp[idx++] = arr[p++];
 		else if (arr[p] < arr[q]) temp[idx++] = arr[p++];
 		else					  temp[idx++] = arr[q++];
 	}
-
 	for (int i = 0; i < idx; i++) arr[start++] = temp[i];
 	delete[] temp;
 }
 
 template <typename T>
-void merge_sort(T arr[], int start, int end)
-{
-	if (start < end)
-	{
+void merge_sort(T arr[], int start, int end) {
+	if (start < end) {
 		int mid = (start + end) / 2;
 		merge_sort(arr, start, mid);
 		merge_sort(arr, mid + 1, end);
@@ -46,4 +40,6 @@ void merge_sort(T arr[], int start, int end)
 }
 
 template <typename T>
-void merge_sort(T arr[], int N) { merge_sort(arr, 0, N - 1); }
+void merge_sort(T arr[], int N) {
+	merge_sort(arr, 0, N - 1);
+}

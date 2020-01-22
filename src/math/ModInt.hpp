@@ -9,15 +9,12 @@
 
 using namespace std;
 
-namespace ModInt
-{
+namespace ModInt {
 	typedef unsigned long long ull;
 
-	ull mul_mod(ull a, ull b, ull m)
-	{
+	ull mul_mod(ull a, ull b, ull m) {
 		ull res = 0;
-		while (b)
-		{
+		while (b) {
 			if (b & 1) res = (res + a) % m;
 			a = (a << 1) % m;
 			b >>= 1;
@@ -25,11 +22,9 @@ namespace ModInt
 		return res;
 	}
 
-	ull pow_mod(ull a, ull b, ull m)
-	{
+	ull pow_mod(ull a, ull b, ull m) {
 		ull res = 1;
-		while (b)
-		{
+		while (b) {
 			if (b & 1) res = mul_mod(res, a, m);
 			a = mul_mod(a, a, m);
 			b >>= 1;

@@ -24,20 +24,16 @@
 
 using namespace std;
 
-namespace SubsetSum
-{
+namespace SubsetSum {
     static const int MAXSUM = 1000000;  // change this value if needed
     static bitset<MAXSUM> bit;
     
     template <typename T>
-    vector<T> sums(const auto& a, const int N, const bool sorted)
-    {
+    vector<T> sums(const auto& a, const int N, const bool sorted) {
         vector<T> res(1 << N);
-        for (int i = 0, curr = 1; i < N; i++)
-        {
-            for (int j = 0; j < curr; j++)         res[j + curr] = res[j];
+        for (int i = 0, curr = 1; i < N; i++) {
+            for (int j = 0; j < curr; j++) res[j + curr] = res[j];
             for (int j = curr; j < curr << 1; j++) res[j] += a[i];
-            
             if (sorted) inplace_merge(res.begin(), res.begin() + curr, res.begin() + (curr << 1));
             curr <<= 1;
         }
@@ -49,7 +45,6 @@ namespace SubsetSum
     {
         bit.reset();
         bit[0] = 1;
-        
         for (int i = 0; i < N; i++) bit |= bit << a[i];
         return make_pair(bit[sum], bit);
     }
@@ -59,23 +54,19 @@ namespace SubsetSum
     {
         unordered_map<T, long long> left, right;
         left[0] = 1, right[0] = 1;
-        
-        for (int i = 0; i < N >> 1; i++)
-        {
+        for (int i = 0; i < N >> 1; i++) {
             auto L = left;
             for (const auto& l : L) left[l.first + a[i]] += l.second;
         }
-        
-        for (int i = N >> 1; i < N; i++)
-        {
+        for (int i = N >> 1; i < N; i++) {
             auto R = right;
             for (const auto& r : R) right[r.first + a[i]] += r.second;
         }
-        
         long long res = 0;
-        for (const auto& l : left)
-        {
-            if (right.find(sum - l.first) != right.end()) res += l.second * right[sum - l.first];
+        for (const auto& l : left) {
+            if (right.find(sum - l.first) != right.end()) {
+            	res += l.second * right[sum - l.first];
+            }
         }
         return res;
     }

@@ -15,10 +15,10 @@
 using namespace std;
 
 template <typename T>
-void insertion_sort(T arr[], int N)
-{
-	for (int i = 0; i < N - 1; i++)
-	{
-		for (int j = i + 1; j && arr[j] < arr[j - 1]; j--) swap(arr[j], arr[j - 1]);
+void insertion_sort(T arr[], int N) {
+	for (int i = 0; i < N - 1; i++) {
+		for (int j = i + 1; j && arr[j] < arr[j - 1]; j--) {
+			swap(arr[j], arr[j - 1]);
+		}
 	}
 }

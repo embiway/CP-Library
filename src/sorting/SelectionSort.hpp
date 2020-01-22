@@ -15,14 +15,13 @@
 using namespace std;
 
 template <typename T>
-void selection_sort(T arr[], int N)
-{
-	for (int i = 0; i < N - 1; i++)
-	{
+void selection_sort(T arr[], int N) {
+	for (int i = 0; i < N - 1; i++) {
 		int mini = i;
-		for (int j = i + 1; j < N; j++)
-		{
-			if (arr[j] < arr[mini]) mini = j;
+		for (int j = i + 1; j < N; j++) {
+			if (arr[j] < arr[mini]) {
+				mini = j;
+			}
 		}
 		swap(arr[i], arr[mini]);
 	}

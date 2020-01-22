@@ -18,15 +18,11 @@
 using namespace std;
 
 template <typename T>
-void counting_sort(T arr[], int N, int maxv)
-{
+void counting_sort(T arr[], int N, int maxv) {
 	int* cnt = new int[maxv + 1];
 	for (T i = 0; i <= maxv; i++) cnt[i] = 0;
-
 	for (int i = 0; i < N; i++) ++cnt[arr[i]];
-
-	for (T i = 0, z = 0; i <= maxv; i++)
-	{
+	for (T i = 0, z = 0; i <= maxv; i++) {
 		while (cnt[i]--) arr[z++] = i;
 	}
 	delete[] cnt;

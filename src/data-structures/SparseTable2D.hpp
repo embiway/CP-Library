@@ -30,41 +30,27 @@ struct SparseTable2D
 
 	T merge(T left, T right); // query type?
 
-	void init(const auto& a, const int N = MAXN, const int M = MAXM)
-	{
+	void init(const auto& a, const int N = MAXN, const int M = MAXM) {
 		_N = N, _M = M;
 		const int LGN = 32 - __builtin_clz(_N), LGM = 32 - __builtin_clz(_M);
-
-		for (int ir = 0; ir < _N; ir++)
-		{
-			for (int ic = 0; ic < _M; ic++)
-			{
+		for (int ir = 0; ir < _N; ir++) {
+			for (int ic = 0; ic < _M; ic++) {
 				st[0][ir][0][ic] = a[ir][ic];
 			}
 		}
-
-		for (int ir = 0; ir < _N; ir++)
-		{
-			for (int jc = 0; jc < LGM - 1; jc++)
-			{
-				for (int ic = 0; ic + (1 << jc) < _M; ic++)
-				{
+		for (int ir = 0; ir < _N; ir++) {
+			for (int jc = 0; jc < LGM - 1; jc++) {
+				for (int ic = 0; ic + (1 << jc) < _M; ic++) {
 					st[0][ir][jc + 1][ic] = merge(st[0][ir][jc][ic], st[0][ir][jc][ic + (1 << jc)]);
 				}
 			}
 		}
-
 		lg[1] = 0;
 		for (int i = 2; i <= max(_N, _M); i++) lg[i] = lg[i >> 1] + 1;
-
-		for (int jr = 0; jr < LGN - 1; jr++)
-		{
-			for (int ir = 0; ir + (1 << jr) < _N; ir++)
-			{
-				for (int jc = 0; jc < LGM; jc++)
-				{
-					for (int ic = 0; ic < _M; ic++)
-					{
+		for (int jr = 0; jr < LGN - 1; jr++) {
+			for (int ir = 0; ir + (1 << jr) < _N; ir++) {
+				for (int jc = 0; jc < LGM; jc++) {
+					for (int ic = 0; ic < _M; ic++) {
 						st[jr + 1][ir][jc][ic] = merge(st[jr][ir][jc][ic], st[jr][ir + (1 << jr)][jc][ic]);
 					}
 				}
@@ -72,10 +58,8 @@ struct SparseTable2D
 		}
 	}
 
-	T query(const int u, const int d, const int l, const int r)
-	{
+	T query(const int u, const int d, const int l, const int r) {
 		int kr = lg[d - u + 1], kc = lg[r - l + 1];
-		return merge(merge(st[kr][u][kc][l], st[kr][u][kc][r - (1 << kc) + 1]),
-		             merge(st[kr][d - (1 << kr) + 1][kc][l], st[kr][d - (1 << kr) + 1][kc][r - (1 << kc) + 1]));
+		return merge(merge(st[kr][u][kc][l], st[kr][u][kc][r - (1 << kc) + 1]), merge(st[kr][d - (1 << kr) + 1][kc][l], st[kr][d - (1 << kr) + 1][kc][r - (1 << kc) + 1]));
 	}
 };

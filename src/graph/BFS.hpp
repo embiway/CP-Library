@@ -37,35 +37,31 @@
 using namespace std;
 
 template <const int MAXV>
-struct BFS
-{
+struct BFS {
 	vector<int> adj[MAXV + 1];
 	queue<int> q;
 	int dist[MAXV + 1], parent[MAXV + 1], _V;
 
-	void add(const int u, const int v) { adj[u].push_back(v); }
+	void add(const int u, const int v) {
+		adj[u].push_back(v);
+	}
 
-	void add_bi(const int u, const int v) { add(u, v); add(v, u); }
+	void add_bi(const int u, const int v) {
+		add(u, v); add(v, u);
+	}
 
-	void min_path(const int v, const int V = MAXV)
-	{
+	void min_path(const int v, const int V = MAXV) {
 		_V = V;
 		queue<int>().swap(q);
 		fill(dist, dist + _V + 1, INT_MAX);
 		memset(parent, -1, sizeof(parent));
-
 		q.push(v);
 		dist[v] = 0;
-
-		while (!q.empty())
-		{
+		while (!q.empty()) {
 			int curr = q.front();
 			q.pop();
-
-			for (int i : adj[curr])
-			{
-				if (dist[i] == INT_MAX)
-				{
+			for (int i : adj[curr]) {
+				if (dist[i] == INT_MAX) {
 					parent[i] = curr;
 					dist[i] = dist[curr] + 1;
 					q.push(i);
@@ -74,13 +70,14 @@ struct BFS
 		}
 	}
 
-	vector<int> get_path(int v)
-	{
+	vector<int> get_path(int v) {
 		vector<int> res;
 		for (; v != -1; v = parent[v]) res.push_back(v);
 		reverse(res.begin(), res.end());
 		return res;
 	}
 
-	void clear() { for (int i = 0; i <= _V; i++) adj[i].clear(); }
+	void clear() {
+		for (int i = 0; i <= _V; i++) adj[i].clear();
+	}
 };

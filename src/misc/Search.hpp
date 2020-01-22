@@ -9,14 +9,11 @@
 
 using namespace std;
 
-namespace Search
-{
+namespace Search {
 	template <typename T, typename F>
-	T binary_search(T lo, T hi, F f)
-	{
+	T binary_search(T lo, T hi, F f) {
 		T mid;
-		while (lo < hi)
-		{
+		while (lo < hi) {
 			mid = lo + (hi - lo) / 2;
 			auto temp = f(mid);
 			if (temp < 0) lo = mid + 1;
@@ -27,11 +24,9 @@ namespace Search
 	}
 
 	template <typename T, typename F>
-	T lower_bound(T lo, T hi, F f)
-	{
+	T lower_bound(T lo, T hi, F f) {
 		T mid;
-		while (lo < hi)
-		{
+		while (lo < hi) {
 			mid = lo + (hi - lo) / 2;
 			if (f(mid)) hi = mid;
 			else        lo = mid + 1;
@@ -40,11 +35,9 @@ namespace Search
 	}
 
 	template <typename T, typename F>
-	T upper_bound(T lo, T hi, F f)
-	{
+	T upper_bound(T lo, T hi, F f) {
 		T mid;
-		while (lo < hi)
-		{
+		while (lo < hi) {
 			mid = lo + (hi - lo) / 2;
 			if (f(mid)) lo = mid + 1;
 			else        hi = mid;

@@ -38,34 +38,25 @@ struct SegTree
 
 	T merge(T left, T right); // query type?
 
-	void init(const auto& a, const int N = MAXN)
-	{
+	void init(const auto& a, const int N = MAXN) {
 		_N = N;
-		fill(tree, tree + _N, DEFAULT);
-
 		for (int i = 0; i < _N; i++) tree[_N + i] = a[i];
 		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	void init(const int N = MAXN)
-	{
+	void init(const int N = MAXN) {
 		_N = N;
-		fill(tree, tree + _N, DEFAULT);
-
 	    for (int i = 0; i < _N; i++) tree[_N + i] = DEFAULT;
 		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	void update(int i, const T v)
-	{
+	void update(int i, const T v) {
 		for (i += _N, tree[i] = v; i >>= 1; ) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	T query(int l, int r)
-	{
+	T query(int l, int r) {
 		T resl = DEFAULT, resr = DEFAULT;
-		for (l += _N, r += _N; l < r; l >>= 1, r >>= 1)
-		{
+		for (l += _N, r += _N; l < r; l >>= 1, r >>= 1) {
 			if (l & 1) resl = merge(resl, tree[l++]);
 			if (r & 1) resr = merge(resr, tree[--r]);
 		}

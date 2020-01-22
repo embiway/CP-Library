@@ -32,23 +32,16 @@
 using namespace std;
 
 template <const int MAXV, typename T>
-struct Prim
-{
-	struct Edge
-	{
+struct Prim {
+	struct Edge {
 		int u, v; T w;
-
 		Edge(int u, int v, T w) : u(u), v(v), w(w) {}
-
 		bool operator < (const Edge& e) const { return w < e.w; }
 	};
 
-	struct Node
-	{
+	struct Node {
 		int v; T w;
-
 		Node(int v, T w) : v(v), w(w) {}
-
 		bool operator < (const Node& n) const { return n.w < w; }
 	};
 
@@ -59,45 +52,41 @@ struct Prim
 	bool visited[MAXV + 1];
 	pair<int, T> parent[MAXV + 1];
 
-	void add(const int u, const int v, const T w) { adj[u].emplace_back(v, w); adj[v].emplace_back(u, w); }
+	void add(const int u, const int v, const T w) {
+		adj[u].emplace_back(v, w); adj[v].emplace_back(u, w);
+	}
 
-	T min_path(const int V = MAXV)
-	{
+	T min_path(const int V = MAXV) {
 		priority_queue<Node>().swap(pq);
 		fill(cost, cost + V + 1, INT_MAX);
 		memset(visited, 0, sizeof(visited));
 		memset(parent, -1, sizeof(parent));
-
 		pq.emplace(0, 0);
 		cost[0] = 0;
-
 		T ans = 0;
-		while (!pq.empty())
-		{
+		while (!pq.empty()) {
 			int cv = pq.top().v, cw = pq.top().w;
 			pq.pop();
-
 			if (visited[cv]) continue;
 			visited[cv] = true;
-
 			ans += cw;
-			for (const auto& i : adj[cv])
-			{
-				if (!visited[i.v] && cost[i.v] > i.w)
-				{
+			for (const auto& i : adj[cv]) {
+				if (!visited[i.v] && cost[i.v] > i.w) {
 					cost[i.v] = i.w;
 					pq.push(i);
 					parent[i.v] = {cv, i.w};
 				}
 			}
 		}
-
-		for (int i = 0; i <= V; i++)
-		{
-			if (parent[i].first != -1) mst.emplace_back(i, parent[i].first, parent[i].second);
+		for (int i = 0; i <= V; i++) {
+			if (parent[i].first != -1) {
+				mst.emplace_back(i, parent[i].first, parent[i].second);
+			}
 		}
 		return ans;
 	}
 
-	vector<Edge> get_path() { return mst; }
+	vector<Edge> get_path() {
+		return mst;
+	}
 };

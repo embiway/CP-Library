@@ -26,36 +26,29 @@
 using namespace std;
 
 template <const int MAXN>
-struct KMP
-{
+struct KMP {
 	int LPS[MAXN];
 	string pat;
 	vector<int> match;
 
-	void init(const string& pat)
-	{
+	void init(const string& pat) {
 		this->pat = pat, LPS[0] = -1;
-		for (int i = 0, j = -1; i < int(pat.size()); i++, j++, LPS[i] = j)
-		{
+		for (int i = 0, j = -1; i < int(pat.size()); i++, j++, LPS[i] = j) {
 			while (j >= 0 && pat[i] != pat[j]) j = LPS[j];
 		}
 	}
 
-	int search(const string& txt)
-	{
-		for (int i = 0, j = 0; i < int(txt.size()); i++, j++)
-		{
+	int search(const string& txt) {
+		for (int i = 0, j = 0; i < int(txt.size()); i++, j++) {
 			while (j >= 0 && txt[i] != pat[j]) j = LPS[j];
 			if (j == int(pat.size()) - 1) return abs(i - j);
 		}
 		return -1;
 	}
 
-	vector<int> search_all(const string& txt)
-	{
+	vector<int> search_all(const string& txt) {
 		match.clear();
-		for (int i = 0, j = 0; i < int(txt.size()); i++, j++)
-		{
+		for (int i = 0, j = 0; i < int(txt.size()); i++, j++) {
 			while (j >= 0 && txt[i] != pat[j]) j = LPS[j];
 			if (j == int(pat.size()) - 1) match.push_back(abs(i - j));
 		}
