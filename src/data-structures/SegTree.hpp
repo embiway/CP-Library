@@ -50,7 +50,7 @@ struct SegTree
 		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
-	void update(int i, const T v) {
+	void update(int i, const T& v) {
 		for (i += _N, tree[i] = v; i >>= 1; ) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 

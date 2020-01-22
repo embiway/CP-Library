@@ -56,7 +56,7 @@ struct SqrtDecomp {
 		}
 	}
 
-	void update(const int i, const T v) {
+	void update(const int i, const T& v) {
 		int idx = i / _BLKSZ;
 		blocks[idx] = merge(blocks[idx], v);
 	}
