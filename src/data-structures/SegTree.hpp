@@ -33,7 +33,7 @@ template <const int MAXN, typename T>
 struct SegTree
 {
 	T tree[2 * MAXN];
-	const T DEFAULT; // default value?
+	const T DEFN; // default node value?
 	int _N;
 
 	T merge(T left, T right); // query type?
@@ -46,7 +46,7 @@ struct SegTree
 
 	void init(const int N = MAXN) {
 		_N = N;
-	    for (int i = 0; i < _N; i++) tree[_N + i] = DEFAULT;
+	    for (int i = 0; i < _N; i++) tree[_N + i] = DEFN;
 		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 
@@ -55,7 +55,7 @@ struct SegTree
 	}
 
 	T query(int l, int r) {
-		T resl = DEFAULT, resr = DEFAULT;
+		T resl = DEFN, resr = DEFN;
 		for (l += _N, r += _N; l < r; l >>= 1, r >>= 1) {
 			if (l & 1) resl = merge(resl, tree[l++]);
 			if (r & 1) resr = merge(resr, tree[--r]);
