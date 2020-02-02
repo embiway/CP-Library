@@ -42,5 +42,6 @@ namespace Search {
 			if (f(mid)) lo = mid + 1;
 			else        hi = mid;
 		}
+		return hi;
 	}
 }
