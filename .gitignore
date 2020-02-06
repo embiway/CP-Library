@@ -1,10 +1,4 @@
-/Build (GNU)/
-/Default/
 /test/
-/.settings/
-/.autotools
-/.cproject
-/.project
-
 *.o
+*.obj
 *.exe
