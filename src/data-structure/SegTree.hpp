@@ -10,7 +10,7 @@
 	- void init(const auto& a, const int N = MAXN)
 		Time:  O(N)
 		Space: O(1)
-		
+
 	- void init(const int N = MAXN)
 		Time:  O(N)
 		Space: O(1)
@@ -46,7 +46,7 @@ struct SegTree
 
 	void init(const int N = MAXN) {
 		_N = N;
-	    for (int i = 0; i < _N; i++) tree[_N + i] = DEFN;
+		for (int i = 0; i < _N; i++) tree[_N + i] = DEFN;
 		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
 	}
 

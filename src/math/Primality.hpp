@@ -55,6 +55,6 @@ namespace Primality {
 
 	bool is_prime(ull n) {
 		if (n < UINT_MAX) return is_prime32(n);
-		else			  return is_prime64(n);
+		else return is_prime64(n);
 	}
 }
