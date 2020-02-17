@@ -1,92 +1,35 @@
 /*
-	Implementation of Prim's Algorithm to solve Minimum Spanning Tree.
-	Prim's algorithm, like Kruskal's algorithm also greedily solves by
-	picking the minimum weightw hich connects to tree. The implementation
-	here uses a binary heap, although a fibonacci heap would allow for
-	a lower time complexity.
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(1)
-
-	- void add(const int u, const int v, const T w)
-		Time:  O(1)
-		Space: O(1)
-
-	- T min_path(const int V = MAXV)
-		Time:  O(E * log V)
-		Space: O(V + E)
-
-	- vector<Edge<T>> get_path()
-		Time:  O(1)
-		Space: O(1)
-
-	- void clear()
-		Time:  O(1)
-		Space: O(1)
+	Prim's algorithm to solve Minimum Spanning Tree in undirected graphs (0-indexed)
+	Time complexity: O(E log V)
+	 where V and E are the number of vertices and edges, respectively
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXV, typename T>
+template <const int MAXV, typename T, const int INDEXING>
 struct Prim {
-	struct Edge {
-		int u, v; T w;
-		Edge(int u, int v, T w) : u(u), v(v), w(w) {}
-		bool operator < (const Edge& e) const { return w < e.w; }
-	};
-
-	struct Node {
-		int v; T w;
-		Node(int v, T w) : v(v), w(w) {}
-		bool operator < (const Node& n) const { return n.w < w; }
-	};
-
-	vector<Node> adj[MAXV + 1];
-	vector<Edge> mst;
-	priority_queue<Node> pq;
-	T cost[MAXV + 1];
-	bool visited[MAXV + 1];
-	pair<int, T> parent[MAXV + 1];
-
-	void add(const int u, const int v, const T w) {
-		adj[u].emplace_back(v, w); adj[v].emplace_back(u, w);
-	}
-
-	T min_path(const int V = MAXV) {
-		priority_queue<Node>().swap(pq);
-		fill(cost, cost + V + 1, INT_MAX);
-		memset(visited, 0, sizeof(visited));
-		memset(parent, -1, sizeof(parent));
-		pq.emplace(0, 0);
-		cost[0] = 0;
-		T ans = 0;
+	struct Edge { int u, v; T w; };
+	std::vector<std::pair<int, T>> adj[MAXV + INDEXING]; std::vector<Edge> mst; std::priority_queue<std::pair<int, T>, std::vector<std::pair<int, T>>, std::greater<std::pair<int, T>>> pq;
+	const T INF = std::numeric_limits<T>::max(); T cost[MAXV + INDEXING]; bool vis[MAXV + INDEXING]; std::pair<int, T> par[MAXV + INDEXING]; int V;
+	void add(int u, int v, T w) { adj[u].emplace_back(v, w); adj[v].emplace_back(u, w); }
+	T min_path(int V = MAXV) {
+		this->V = V; pq = {}; std::fill(cost, cost + V + INDEXING, INF); std::fill(vis, vis + V + INDEXING, false); std::fill(par, par + V + INDEXING, std::make_pair(-1, 0));
+		pq.emplace(0, INDEXING); cost[INDEXING] = 0; T ans = 0;
 		while (!pq.empty()) {
-			int cv = pq.top().v, cw = pq.top().w;
-			pq.pop();
-			if (visited[cv]) continue;
-			visited[cv] = true;
-			ans += cw;
-			for (const auto& i : adj[cv]) {
-				if (!visited[i.v] && cost[i.v] > i.w) {
-					cost[i.v] = i.w;
-					pq.push(i);
-					parent[i.v] = {cv, i.w};
+			int cv = pq.top().second; T cw = pq.top().first; pq.pop();
+			if (vis[cv]) continue;
+			vis[cv] = true, ans += cw;
+			for (auto &i : adj[cv]) {
+				if (!vis[i.first] && cost[i.first] > i.second) {
+					cost[i.first] = i.second, par[i.first] = {cv, i.second};
+					pq.emplace(i.second, i.first);
 				}
 			}
 		}
-		for (int i = 0; i <= V; i++) {
-			if (parent[i].first != -1) {
-				mst.emplace_back(i, parent[i].first, parent[i].second);
-			}
-		}
+		for (int i = 0; i < V + INDEXING; i++) if (par[i].first != -1) mst.push_back({i, par[i].first, par[i].second});
 		return ans;
 	}
-
-	vector<Edge> get_path() {
-		return mst;
-	}
+	std::vector<Edge> get_path() { return mst; }
+	void clear() { mst.clear(); for (int i = 0; i < V + INDEXING; i++) adj[i].clear(); }
 };

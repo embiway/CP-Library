@@ -1,47 +1,25 @@
 /*
-	A Longest Increasing Subsequence implementation using binary search.
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(N)
-
-	- void init(const auto& a, const int N = MAXN)
-		Time:  O(N)
-		Space: O(1)
-
-	- int get_length()
-		Time:  O(N * log N)
-		Space: O(N)
-
-	- T* get_dp()
-		Time:  O(1)
-		Space: O(1)
+	Longest (strictly) Increasing Subsequence using dynamic programming + binary search
+	Time complexity: O(N log N) where N is the size of the array
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXN, typename T>
-struct LIS {
-	T a[MAXN], dp[MAXN];
-	int _N;
-
-	void init(const auto& a, const int N = MAXN) {
-		_N = N;
-		for (int i = 0; i < _N; i++) this->a[i] = a[i];
-	}
-
-	int get_length() {
-		int len = 0;
-		for (int i = 0; i < _N; i++) {
-			int x = lower_bound(dp, dp + len, a[i]) - dp;
-			dp[x] = a[i];
-			if (x == len) ++len;
+#define T typename std::iterator_traits<It>::value_type
+template <typename It>
+std::vector<T> LIS(It st, It en) {
+	int N = en - st, len = 0, lo, hi, mid; T *dp = new T[N], *nxt = new T[N];
+	for (int i = 0; i < N; i++) {
+		lo = 0, hi = len;
+		while (lo < hi) {
+		    mid = (lo + hi) / 2;
+		    if (*(st + dp[mid]) < *(st + i)) lo = mid + 1;
+		    else hi = mid;
 		}
-		return len;
+		if (len == hi) ++len;
+		dp[hi] = i, nxt[i] = hi ? dp[hi - 1] : -1;
 	}
-
-	T *get_dp() { return dp; }
-};
+	std::vector<T> lis(len); for (int i = dp[len - 1]; i != -1; i = nxt[i]) lis[--len] = *(st + i);
+	return lis;
+}

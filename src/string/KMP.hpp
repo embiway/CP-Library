@@ -1,57 +1,34 @@
 /*
-	KMP String Matching algorithm in linear time. search() returns
-	the index of the first occurence of a match, or -1 if none exists.
-	search_all() returns a vector of all possible occurences.
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(N)
-
-	- void init(const string& pat)
-		Time:  O(M)
-		Space: O(M)
-
-	- int search(const string& txt)
-		Time:  O(N)
-		Space: O(N)
-
-	- vector<int> search_all(const string& txt)
-		Time:  O(N)
-		Space: O(N)
+	Knuth-Morris-Pratt for string searching
+	Time complexity: O(M) init, O(N) search, search_all
+	 where N and M are the sizes of the text and pattern, respectively
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXN>
+template <const int MAXN, const int INDEXING>
 struct KMP {
-	int LPS[MAXN];
-	string pat;
-	vector<int> match;
-
-	void init(const string& pat) {
-		this->pat = pat, LPS[0] = -1;
-		for (int i = 0, j = -1; i < int(pat.size()); i++, j++, LPS[i] = j) {
+	int LPS[MAXN], pat[MAXN], plen; std::vector<int> matches;
+	template <typename It> void init(It st, It en) {
+		std::copy(st, en, pat); LPS[0] = -1, plen = en - st;
+		for (int i = 0, j = -1; i < plen; i++, j++, LPS[i] = j) {
 			while (j >= 0 && pat[i] != pat[j]) j = LPS[j];
 		}
 	}
-
-	int search(const string& txt) {
-		for (int i = 0, j = 0; i < int(txt.size()); i++, j++) {
-			while (j >= 0 && txt[i] != pat[j]) j = LPS[j];
-			if (j == int(pat.size()) - 1) return abs(i - j);
+	template <typename It> int search(It st, It en) {
+		for (int i = 0, j = 0; i < en - st; i++, j++) {
+			while (j >= 0 && *(st + i) != pat[j]) j = LPS[j];
+			if (j == plen - 1) return abs(i - j + INDEXING);
 		}
 		return -1;
 	}
-
-	vector<int> search_all(const string& txt) {
-		match.clear();
-		for (int i = 0, j = 0; i < int(txt.size()); i++, j++) {
-			while (j >= 0 && txt[i] != pat[j]) j = LPS[j];
-			if (j == int(pat.size()) - 1) match.push_back(abs(i - j));
+	template <typename It> std::vector<int> search_all(It st, It en) {
+		matches.clear();
+		for (int i = 0, j = 0; i < en - st; i++, j++) {
+			while (j >= 0 && *(st + i) != pat[j]) j = LPS[j];
+			if (j == plen - 1) matches.push_back(abs(i - j + INDEXING));
 		}
-		return match;
+		return matches;
 	}
 };

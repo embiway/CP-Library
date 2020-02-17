@@ -1,64 +1,22 @@
 /*
-    Implementation of 2D Binary Indexed Tree.
-    Calculates 2D range sum query with a similar method to 'BIT.hpp', except it's 2D.
-    Where N is the size of the array.
-
-    - CONSTRUCTION
-        Time:  O(1)
-        Space: O(N * M)
-
-    - void init(const int N = MAXN, const int M = MAXM)
-        Time:  O(1)
-        Space: O(1)
-
-    - void init(const auto& a, const int N = MAXN, const int M = MAXM)
-        Time:  O(N * M * log N * log M)
-        Space: O(1)
-
-    - void update(int i, int j, const T x)
-        Time:  O(log N * log M)
-        Space: O(1)
-
-    - T query(int i, int j)
-        Time:  O(log N * log M)
-        Space: O(1)
-
-    - T query(int l, int b, int r, int t)
-        Time:  O(log N * log M)
-        Space: O(1)
+	2D Binary Indexed Tree for 2D range sum queries [t, b], [l, r] and point increments
+	init() is called via 'init(arr, arr + rows)' or 'init(std::begin(arr), std::end(arr))'
+	Time complexity: O(NM log N log M) init, O(log N log M) query and update
+	 where N and M are the size of the array's rows and columns, respectively
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXN, const int MAXM, typename T>
+template <const int MAXN, const int MAXM, typename T, const int INDEXING>
 struct BIT2D {
-    T bit2d[MAXN + 1][MAXM + 1];
-    int _N, _M;
-
-    void init(const int N = MAXN, const int M = MAXM) {
-    	_N = N, _M = M;
-    	memset(bit2d, 0, sizeof(bit2d));
-    }
-
-    void init(const auto& a, const int N = MAXN, const int M = MAXM) {
-    	_N = N, _M = M;
-    	for (int i = 1; i <= _N; i++) for (int j = 1; j <= _M; j++) update(i, j, a[i][j]);
-    }
-
-    void update(int i, int j, const T x) {
-        for (int ii = i; ii <= _N; ii += ii & -ii) for (int jj = j; jj <= _M; jj += jj & -jj) bit2d[ii][jj] += x;
-    }
-
-    T query(int i, int j) {
-        T res = 0;
-        for (int ii = i; ii > 0; ii -= ii & -ii) for (int jj = j; jj > 0; jj -= jj & -jj) res += bit2d[ii][jj];
-        return res;
-    }
-
-    T query(const int l, const int b, const int r, const int t) {
-        return query(r, t) - query(r, b - 1) - query(l - 1, t) + query(l - 1, b - 1);
-    }
+	T bit[MAXN + 1][MAXM + 1]; int N, M;
+	void init(int N = MAXN, int M = MAXM) { this->N = N, this->M = M; std::fill(*bit, *bit + (N + 1) * (M + 1), 0); }
+	template <typename It> void init(It st, It en) {
+		N = en - st, M = std::end(*st) - std::begin(*st); std::fill(*bit, *bit + (N + 1) * (M + 1), 0);
+		for (int i = 1; i <= N; i++) for (int j = 1; j <= M; j++) update(i, j, (*(st + i - 1))[j - 1]);
+	}
+	void update(int i, int j, T x) { for (int ii = i - INDEXING + 1; ii <= N; ii += ii & -ii) for (int jj = j - INDEXING + 1; jj <= M; jj += jj & -jj) bit[ii][jj] += x; }
+	T query(int i, int j) { T res = 0; for (int ii = i - INDEXING + 1; ii; ii -= ii & -ii) for (int jj = j - INDEXING + 1; jj; jj -= jj & -jj) res += bit[ii][jj]; return res; }
+	T query(int t, int b, int l, int r) { return query(b, r) - query(t - 1, r) - query(b, l - 1) + query(t - 1, l - 1); }
 };

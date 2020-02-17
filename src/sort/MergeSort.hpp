@@ -1,19 +1,12 @@
 /*
-	Implementation of Merge Sort sorting algorithm. This is an
-	efficient algorithm which has a worst case complexity of O(n * log n).
-	Therefore, it technically can be faster than quicksort, but due to
-	its large constant factor, and quicksort's average complexity,
-	it is usually slower :(
-
-	- void merge_sort(It st, It en, Compare comp)
-		Time:  O(N * log N)
-		Space: O(N)
+	Merge Sort comparative sorting algorithm
+	Slower than Quick Sort due to bigger constant
+	Time complexity: O(N log N)
+	 where N is the size of the array
 */
 
 #pragma once
 #include <bits/stdc++.h>
-
-using namespace std;
 
 template <typename It, typename Compare>
 void merge_sort(It st, It en, Compare comp) {
@@ -22,7 +15,7 @@ void merge_sort(It st, It en, Compare comp) {
 		It mid = st + range / 2, s = st, m = mid;
 		merge_sort(st, mid, comp);
 		merge_sort(mid, en, comp);
-		typedef typename iterator_traits<It>::value_type T;
+		typedef typename std::iterator_traits<It>::value_type T;
 		T *temp = new T[en - st + 1]; int idx = 0;
 		while (s != mid && m != en) temp[idx++] = comp(*s, *m) ? *s++ : *m++;
 		while (s != mid) temp[idx++] = *s++;
@@ -34,6 +27,6 @@ void merge_sort(It st, It en, Compare comp) {
 
 template <typename It>
 void merge_sort(It st, It en) {
-	typedef typename iterator_traits<It>::value_type T;
-	merge_sort(st, en, less<T>());
+	typedef typename std::iterator_traits<It>::value_type T;
+	merge_sort(st, en, std::less<T>());
 }

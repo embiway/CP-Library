@@ -1,27 +1,8 @@
 /*
-	Implementation of iterative Segment Tree which supports range
-	query and point update. The Segment Tree is useful because it is
-	very versatile, as it can perform many operations. Keep in mind
-	that the queries are 0-indexed, and range is [l, r).
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(N)
-	- void init(const auto& a, const int N = MAXN)
-		Time:  O(N)
-		Space: O(1)
-
-	- void init(const int N = MAXN)
-		Time:  O(N)
-		Space: O(1)
-
-	- void update(int i, const T v)
-		Time:  O(log N)
-		Space: O(1)
-
-	- T query(int l, int r)
-		Time:  O(log N)
-		Space: O(1)
+	Iterative Segment Tree for range queries and point updates [l, r]
+	Typename TV denotes the array type, TQ denotes the query type
+	Time complexity: O(N) init, O(log N) query and update
+	 where N is the size of the array
 */
 
 #pragma once
@@ -29,37 +10,26 @@
 
 using namespace std;
 
-template <const int MAXN, typename T>
-struct SegTree
-{
-	T tree[2 * MAXN];
-	const T DEFN; // default node value?
-	int _N;
-
-	T merge(T& left, T& right); // query type?
-
-	void init(const auto& a, const int N = MAXN) {
-		_N = N;
-		for (int i = 0; i < _N; i++) tree[_N + i] = a[i];
-		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
+template <const int MAXN, typename TV, typename TQ, const int INDEXING>
+struct SegTree {
+	TQ tree[MAXN << 1]; int N; const TQ DEFV, DEFQ; // default value of array and queries
+	TQ query_op(TQ a, TQ b); // range query operation
+	TQ update_op(TQ a, TV b); // range update operation
+	void init(int N = MAXN) {
+		this->N = N; for (int i = 0; i < N; i++) tree[N + i] = DEFV;
+		for (int i = N - 1; i; i--) tree[i] = query_op(tree[i << 1], tree[i << 1 | 1]);
 	}
-
-	void init(const int N = MAXN) {
-		_N = N;
-		for (int i = 0; i < _N; i++) tree[_N + i] = DEFN;
-		for (int i = _N - 1; i > 0; i--) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
+	template <typename It> void init(It st, It en) {
+		N = en - st; for (int i = 0; i < N; i++) tree[N + i] = *(st + i);
+		for (int i = N - 1; i; i--) tree[i] = query_op(tree[i << 1], tree[i << 1 | 1]);
 	}
-
-	void update(int i, const T v) {
-		for (i += _N, tree[i] = v; i >>= 1; ) tree[i] = merge(tree[i << 1], tree[i << 1 | 1]);
-	}
-
-	T query(int l, int r) {
-		T resl = DEFN, resr = DEFN;
-		for (l += _N, r += _N; l < r; l >>= 1, r >>= 1) {
-			if (l & 1) resl = merge(resl, tree[l++]);
-			if (r & 1) resr = merge(tree[--r], resr);
+	void update(int i, TV v) { for (i += N - INDEXING, tree[i] = update_op(tree[i], v); i >>= 1; ) tree[i] = query_op(tree[i << 1], tree[i << 1 | 1]); }
+	TQ query(int l, int r) {
+		TQ resl = DEFQ, resr = DEFQ;
+		for (l += N - INDEXING, r += N - INDEXING; l <= r; l >>= 1, r >>= 1) {
+			if (l & 1) resl = query_op(resl, tree[l++]);
+			if (!(r & 1)) resr = query_op(tree[r--], resr);
 		}
-		return merge(resl, resr);
+		return query_op(resl, resr);
 	}
 };

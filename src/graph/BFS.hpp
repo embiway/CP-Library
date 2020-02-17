@@ -1,83 +1,34 @@
 /*
-	Implementation of BFS (Breadth-First Search) with std::queue.
-	min_path() performs the BFS algorithm, where the disconnected
-	nodes have a value of numeric_limits<T>::max(). The get_path()
-	function takes in an argument, the destination, and returns a
-	vector of a shortest path from the source (given in min_path()
-	argument), to the destination.
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(V)
-
-	- void add(const int u, const int v)
-		Time:  O(1)
-		Space: O(1)
-
-	- void add_bi(const int u, const int v)
-		Time:  O(1)
-		Space: O(1)
-
-	- vector<int> min_path(const int v, const int V = MAXV)
-		Time:  O(V + E)
-		Space: O(V + E)
-
-	- vector<int> get_path(int v)
-		Time:  O(V)
-		Space: O(V)
-
-	- void clear()
-		Time:  O(1)
-		Space: O(1)
+	Breadth First Search algorithm for shortest path in unweighted graphs
+	Time complexity: O(V + E)
+	 where V and E are the number of vertices and edges, respectively
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXV>
+template <const int MAXV, const int INDEXING>
 struct BFS {
-	vector<int> adj[MAXV + 1];
-	queue<int> q;
-	int dist[MAXV + 1], parent[MAXV + 1], _V;
-
-	void add(const int u, const int v) {
-		adj[u].push_back(v);
-	}
-
-	void add_bi(const int u, const int v) {
-		add(u, v); add(v, u);
-	}
-
-	void min_path(const int v, const int V = MAXV) {
-		_V = V;
-		queue<int>().swap(q);
-		fill(dist, dist + _V + 1, INT_MAX);
-		memset(parent, -1, sizeof(parent));
-		q.push(v);
-		dist[v] = 0;
+	std::vector<int> adj[MAXV + INDEXING]; std::queue<int> q; int dist[MAXV + INDEXING], par[MAXV + INDEXING], V;
+	void add(int u, int v) { adj[u].push_back(v); }
+	void add_bi(int u, int v) { add(u, v); add(v, u); }
+	void min_path(int v, int V = MAXV) {
+		this->V = V; q = {}; std::fill(dist, dist + V + INDEXING, INT_MAX); std::fill(par, par + V + INDEXING, -1);
+		q.push(v); dist[v] = 0;
 		while (!q.empty()) {
-			int curr = q.front();
-			q.pop();
-			for (int i : adj[curr]) {
+			int cur = q.front(); q.pop();
+			for (int i : adj[cur]) {
 				if (dist[i] == INT_MAX) {
-					parent[i] = curr;
-					dist[i] = dist[curr] + 1;
+					dist[i] = dist[cur] + 1, par[i] = cur;
 					q.push(i);
 				}
 			}
 		}
 	}
-
-	vector<int> get_path(int v) {
-		vector<int> res;
-		for (; v != -1; v = parent[v]) res.push_back(v);
-		reverse(res.begin(), res.end());
-		return res;
+	std::vector<int> get_path(int v) {
+		std::vector<int> res;
+		for (; v != -1; v = par[v]) res.push_back(v);
+		std::reverse(res.begin(), res.end()); return res;
 	}
-
-	void clear() {
-		for (int i = 0; i <= _V; i++) adj[i].clear();
-	}
+	void clear() { for (int i = 0; i < V + INDEXING; i++) adj[i].clear(); }
 };

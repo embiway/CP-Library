@@ -1,4 +1,3 @@
 # CP-Library
-Me learning diffferent algorithms/data structures.<br>
-**NOTE: MANY IMPLEMENTATIONS ONLY WORK IN C++14 DUE TO THE USE OF AUTO**
-**NOTE 2: ALL SPACE COMPLEXITIES  SHOULD ARE MEASURED AS AUXILIARY SPACE**
+Library of competitive programming algorithms/data-structures
+Inspired by wleung_bvg's awesome templates :)))

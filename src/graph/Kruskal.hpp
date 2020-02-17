@@ -1,66 +1,34 @@
 /*
-	Implementation of Kruskal's Algorithm to solve Minimum Spanning Tree.
-	Kruskal's Algorithm greedily solves by finding smallest weight which does
-	not produce a cycle, which can be achieved fast using the Disjoint Set.
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(1)
-
-	- void add(const int u, const int v, const T w)
-		Time:  O(1)
-		Space: O(1)
-
-	- T min_path(const int V = MAXV)
-		Time:  O(E * log E)
-		Space: O(V + E)
-
-	- vector<Edge<T>> get_path()
-		Time:  O(1)
-		Space: O(1)
-
-	- void clear()
-		Time:  O(1)
-		Space: O(1)
+	Kruskal's algorithm to solve Minimum Spanning Tree in undirected graphs
+	Time complexity: O(E log E)
+	 where E is the number of edges
 */
 
 #pragma once
-#include "../data-structures/DisjointSet.hpp"
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXV, typename T>
-struct Kruskal  {
-	struct Edge {
-		int u, v; T w;
-		Edge(int u, int v, T w) : u(u), v(v), w(w) {}
-		bool operator < (const Edge& e) const { return w < e.w; }
-	};
-
-	vector<Edge> graph, mst;
-	DisjointSet<MAXV> ds;
-
-	void add(const int u, const int v, const T w) {
-		graph.emplace_back(u, v, w);
-	}
-
-	T min_path(const int V = MAXV) {
-		ds.init();
-		sort(graph.begin(), graph.end());
+template <const int MAXV, typename T, const int INDEXING>
+struct Kruskal {
+	struct Edge { int u, v; T w; bool operator < (Edge &e) { return w < e.w; } };
+	std::vector<Edge> adj, mst; int par[MAXV + INDEXING], sz[MAXV + INDEXING];
+	void add(int u, int v, T w) { adj.push_back({u, v, w}); }
+	T min_path(int V = MAXV) {
+		std::sort(adj.begin(), adj.end()); for (int i = 0; i < V + INDEXING; i++) par[i] = i, sz[i] = 1;
 		T ans = 0; int sz = 0;
-		for (const auto& i : graph) {
+		for (auto &i : adj) {
 			if (sz > V) break;
-			if (ds.join(i.u, i.v)) { mst.push_back(i); ans += i.w; ++sz; }
+			if (join(i.u, i.v)) mst.push_back(i), ans += i.w, ++sz;
 		}
 		return ans;
 	}
-
-	vector<Edge> get_path() {
-		return mst;
-	}
-
-	void clear() {
-		graph.clear(); mst.clear();
+	std::vector<Edge> get_path() { return mst; }
+	void clear() { adj.clear(); mst.clear(); }
+private:
+	int find(int v) { return v == par[v] ? v : par[v] = find(par[v]); }
+	bool join(int u, int v) {
+		if ((u = find(u)) == (v = find(v))) return false;
+		if (sz[u] < sz[v]) std::swap(u, v);
+		par[v] = u, sz[u] += sz[v];
+		return true;
 	}
 };

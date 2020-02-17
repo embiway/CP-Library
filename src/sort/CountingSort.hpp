@@ -1,24 +1,18 @@
 /*
-	Implementation of Counting Sort sorting algorithm. The implementation
-	shown here can also sort negative values. The algorithm relies on the
-	fact that the integers to be sorted are small. The time complexity of
-	counting_sort is linear to the range of the array.
-
-	- void counting_sort(It st, It en) {
-		Time:  O(N + range)
-		Space: O(range)
+	Counting Sort non-comparative sorting algorithm
+	Suitable for arrays with small ranges
+	Time complexity: O(N + R)
+	 where N is the size of the array, and R is the range of the elements
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
 template <typename It>
 void counting_sort(It st, It en) {
-	typedef typename iterator_traits<It>::value_type T;
+	typedef typename std::iterator_traits<It>::value_type T;
 	T maxv = *st, minv = *st;
-	for (It i = st; i != en; i++) maxv = max(maxv, *i), minv = min(minv, *i);
+	for (It i = st; i != en; i++) maxv = std::max(maxv, *i), minv = std::min(minv, *i);
 	T range = maxv - minv + 1, *cnt = new T[range];
 	for (int i = 0; i < range; i++) cnt[i] = 0;
 	for (It i = st; i != en; i++) ++cnt[*i - minv];

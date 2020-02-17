@@ -1,56 +1,24 @@
 /*
-	Convex Hull Trick with sorted insertions and queries.
-	Originally to solve APIO 2014 P2.
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(N)
-
-	- void init()
-		Time:  O(1)
-		Space: O(1)
-
-	- void insert(const Line x)
-		Time:  O(1)
-		Space: O(1)
-
-	- pair<T, int> get(const T x)
-		Time:  O(1)
-		Space: O(1)
+	Convex Hull Trick for finding extremal value of a set of linear functions
+	Static variant requires insertions and queries in sorted order
+	Time complexity: O(N) init, O(1) query and insertion
+	 where N is the number of linear functions
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXN, typename T>
+template <const int MAXN, typename T, typename Compare = std::less<T>>
 struct StaticCHT {
-	struct Line {
-		T m, b;
-		int id;
-		T get(const T& x) { return m * x + b; }
-	};
-
-	int ptr, sz;
-	Line v[MAXN];
-
-	void init() {
-		sz = ptr = 0;
+	int ptr, sz, ID[MAXN]; T M[MAXN], B[MAXN]; Compare comp;
+	void init() { sz = ptr = 0; }
+	void insert(T m, T b, int id) {
+		while (ptr + 1 < sz && !comp((m - M[sz - 2]) * (B[sz - 2] - B[sz - 1]), (B[sz - 2] - b) * (M[sz - 1] - M[sz - 2]))) --sz;
+		M[sz] = m, B[sz] = b, ID[sz++] = id;
 	}
-
-	bool bad(const Line& a, const Line& b, const Line& c) {
-		return (a.b - c.b) * (b.m - a.m) <= (c.m - a.m) * (a.b - b.b);
-	}
-
-	void insert(const Line& x) {
-		while (ptr + 1 < sz && bad(v[sz - 2], v[sz - 1], x)) --sz;
-		v[sz++] = x;
-	}
-
-	pair<T, int> get(const T& x) {
-		ptr = min(ptr, sz);
-		while (ptr + 1 < sz && v[ptr].get(x) <= v[ptr + 1].get(x)) ++ptr;
-		return { v[ptr].get(x), v[ptr].id };
+	std::pair<T, int> get(T x) {
+		ptr = std::min(ptr, sz);
+		while (ptr + 1 < sz && !comp(M[ptr + 1] * x + B[ptr + 1], M[ptr] * x + B[ptr])) ++ptr;
+		return { M[ptr] * x + B[ptr], ID[ptr] };
 	}
 };

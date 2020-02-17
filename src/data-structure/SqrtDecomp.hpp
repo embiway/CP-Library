@@ -1,74 +1,40 @@
 /*
-	Implementation of Square Root Decomposition, with range query
-	and point update. Sqrt Decomp is advantageous in that it is quite
-	versatile, althought time complexity is not as good. The optimal block
-	size is sqrt(N), giving a query time of O(sqrt(N)).
-
-	- CONSTRUCTION
-		Time:  O(1)
-		Space: O(N)
-
-	- void init(const auto& a, const int N = MAXN, const int BLKSZ = MAXBLKSZ)
-		Time:  O(1)
-		Space: O(N)
-
-	- void init(const int N = MAXN, const int BLKSZ = MAXBLKSZ)
-		Time:  O(1)
-		Space: O(N)
-
-	- void update(const int i, const T v)
-		Time:  O(1)
-		Space: O(1)
-
-	- T query(const int l, const int r)
-		Time:  O(N / B + B)
-		Space: O(1)
+	Square Root Decomposition for range queries and point updates [l, r]
+	Typename TV denotes the array type, TQ denotes the query type
+	update_assoc is specifically for associative updates
+	Time complexity: O(N) init, O(N / B + B) query, O(1) update_assoc, O(B) update
+	 where B is the block size, and N is the size of the array
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
-
-template <const int MAXN, const int MAXBLKSZ, typename T>
+template <const int MAXN, const int BLKSZ, typename TV, typename TQ, const int INDEXING>
 struct SqrtDecomp {
-	T blocks[MAXN / MAXBLKSZ], arr[MAXN];
-	const T DEFAULT = 0; // default value?
-	int _N, _BLKSZ;
-
-	T merge(T left, T right); // query type?
-
-	void init(const auto& a, const int N = MAXN, const int BLKSZ = MAXBLKSZ) {
-		_N = N, _BLKSZ = BLKSZ;
-		fill(blocks, blocks + _N / _BLKSZ, DEFAULT);
-		for (int i = 0; i < _N; i++) {
-			int idx = i / _BLKSZ;
-			blocks[idx] = merge(blocks[idx], arr[i] = a[i]);
-		}
+	TQ blk[MAXN / BLKSZ], val[MAXN]; int N; const TQ DEFV, DEFQ; // default value of array and queries
+	TQ query_op(TQ a, TQ b); // range query operation
+	TQ update_op(TQ a, TV b); // range update operation
+	void init(int N = MAXN) {
+		this->N = N; std::fill(blk, blk + N / BLKSZ, DEFQ);
+		for (int i = 0; i < N; i++) { int idx = i / BLKSZ; blk[idx] = query_op(blk[idx], val[i] = DEFV); }
 	}
-
-	void init(const int N = MAXN, const int BLKSZ = MAXBLKSZ) {
-		_N = N, _BLKSZ = BLKSZ;
-		fill(blocks, blocks + _N / _BLKSZ, DEFAULT);
-		for (int i = 0; i < _N; i++) {
-			int idx = i / _BLKSZ;
-			blocks[idx] = merge(blocks[idx], arr[i] = DEFAULT);
-		}
+	template <typename It> void init(It st, It en) {
+		N = en - st; std::fill(blk, blk + N / BLKSZ, DEFQ);
+		for (int i = 0; i < N; i++) { int idx = i / BLKSZ; blk[idx] = query_op(blk[idx], val[i] = *(st + i)); }
 	}
-
-	void update(const int i, const T& v) {
-		int idx = i / _BLKSZ;
-		blocks[idx] = merge(blocks[idx], v);
+	void update_assoc(int i, TV v) { val[i -= INDEXING] = update_op(val[i], v); int idx = i / BLKSZ; blk[idx] = update_op(blk[idx], v); }
+	void update(int i, TV v) {
+		val[i -= INDEXING] = update_op(val[i], v); int idx = i / BLKSZ; blk[idx] = DEFQ;
+		for (int j = idx * BLKSZ; j < std::min(N, (idx + 1) * BLKSZ); j++) blk[idx] = query_op(blk[idx], val[j]);
 	}
-
-	T query(const int l, const int r) {
-		T res = DEFAULT;
-		int lidx = l / _BLKSZ, ridx = r / _BLKSZ;
-		if (lidx == ridx) for (int i = l; i <= r; i++) res = merge(res, arr[i]);
+	TQ query(int l, int r) {
+		TQ res = DEFQ;
+		int lidx = (l -= INDEXING) / BLKSZ, ridx = (r -= INDEXING) / BLKSZ;
+		if (lidx == ridx) for (int i = l; i <= r; i++) res = query_op(res, val[i]);
 		else {
-			for (int i = l; i < (lidx + 1) * _BLKSZ; i++) res = merge(res, arr[i]);
-			for (int i = lidx + 1; i < ridx; i++) res = merge(res, blocks[i]);
-			for (int i = ridx * _BLKSZ; i <= r; i++) res = merge(res, arr[i]);
+			for (int i = l; i < (lidx + 1) * BLKSZ; i++) res = query_op(res, val[i]);
+			for (int i = lidx + 1; i < ridx; i++) res = query_op(res, blk[i]);
+			for (int i = ridx * BLKSZ; i <= r; i++) res = query_op(res, val[i]);
 		}
 		return res;
 	}

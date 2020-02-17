@@ -1,48 +1,27 @@
 /*
-	Solver for the 0/1 Knapsack problem, where N is the size of the knapsack,
-	W is the max weight, w is the array of weights, and v is the array of values.
-	If W is small, use small_w(). If the sum of v[i] is small, use small_v().
-
-	- T small_w(int N, int W, auto& w, auto& v)
-		Time:  O(N * W)
-		Space: O(W)
-
-	- T small_v(int N, int W, auto& w, auto& v)
-		Time:  O(N * sum(v))
-		Space: O(sum(v))
+	Two implementations to solve the 0/1 Knapsack problem
+	 - for small knapsack weights
+	 - for small knapsack values
+	Time complexity:
+	 1st method: O(N * W) where N is the size of the array, and W is the knapsack weight
+	 2nd method: O(N * V) where N is the size of the array, and V is the sum of the values
 */
 
 #pragma once
 #include <bits/stdc++.h>
 
-using namespace std;
+template <typename T, typename ItW, typename ItV>
+T small_w(int W, ItW st_w, ItW en_w, ItV st_v, ItV en_v) {
+	int N = en_w - st_w; std::vector<T> dp(W + 1, 0);
+	for (int i = 0; i < N; i++) for (int j = W; j >= *(st_w + i); j--) dp[j] = std::max(dp[j], dp[j - *(st_w + i)] + *(st_v + i));
+	return dp[W];
+}
 
-namespace Knapsack {
-	template <typename T>
-	T small_w(const int N, const int W, const auto& w, const auto& v) {
-		vector<T> dp(W + 1);
-		for (int i = 0; i < N; i++) {
-			for (int j = W; j >= w[i]; j--) {
-				dp[j] = max(dp[j], dp[j - w[i]] + v[i]);
-			}
-		}
-		return dp[W];
-	}
-
-	template <typename T>
-	T small_v(const int N, const int W, const auto& w, const auto& v) {
-		int V = 0; for (int i = 0; i < N; i++) V += v[i];
-		vector<T> dp(V + 1, W + 1);
-		dp[0] = 0;
-		for (int i = 0; i < N; i++) {
-			for (int j = V; j >= v[i]; j--) {
-				dp[j] = min(dp[j], dp[j - v[i]] + w[i]);
-			}
-		}
-		for (int i = V; i >= 0; i--) {
-			if (dp[i] <= W) {
-				return i;
-			}
-		}
-	}
+template <typename T, typename ItW, typename ItV>
+T small_v(int W, ItW st_w, ItW en_w, ItV st_v, ItV en_v) {
+	int N = en_w - st_w, V = std::accumulate(st_v, en_v, 0); std::vector<T> dp(V + 1, W + 1);
+	dp[0] = 0;
+	for (int i = 0; i < N; i++) for (int j = V; j >= *(st_v + i); j--) dp[j] = std::min(dp[j], dp[j - *(st_v + i)] + *(st_w + i));
+	for (int i = V; i >= 0; i--) if (dp[i] <= W) return i;
+	return -1;
 }

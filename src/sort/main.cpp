@@ -1,46 +1,50 @@
 /*
-- Keep in mind that this benchmark is not very accurate
-- It's not really fair for counting sort, since it only applies to small integers.
-- My radix_sort algorithm is substantially faster than std::sort :)
-- Implementations which are too slow are ommitted from the benchmark.
+Note: The benchmark is not completely accurate, there is often a lot of variation
 
 Benchmark for 50000 random 32-bit integers:
-	sort():             0.003s
-	bubble_sort():      3.573s
-	counting_sort():    4.745s
-	insertion_sort():   0.555s
-	merge_sort():       0.013s
-	quick_sort():       0.005s
-	radix_sort():       0.001s
-	selection_sort():   1.568s
-
+sort():             0.003s
+bubble_sort():      3.379s
+counting_sort():    3.841s
+insertion_sort():   0.635s
+merge_sort():       0.012s
+quick_sort():       0.004s
+radix_sort():       0.001s
+shell_sort():       0.007s
+selection_sort():   2.110s
 Benchmark for 250000 random 32-bit integers:
-	sort():             0.020s
-	counting_sort():    3.997s
-	merge_sort():       0.061s
-	radix_sort():       0.005s
-
+sort():             0.020s
+counting_sort():    5.545s
+insertion_sort():   14.877s
+merge_sort():       0.054s
+quick_sort():       0.026s
+radix_sort():       0.004s
+shell_sort():       0.038s
 Benchmark for 1000000 random 32-bit integers:
-	sort():             0.095s
-	counting_sort():    3.590s
-	merge_sort():       0.229s
-	radix_sort():       0.022s
-
+sort():             0.089s
+counting_sort():    4.400s
+merge_sort():       0.258s
+quick_sort():       0.118s
+radix_sort():       0.024s
+shell_sort():       0.183s
 Benchmark for 10000000 random 32-bit integers:
-	sort():             0.794s
-	counting_sort():    4.234s
-	merge_sort():       2.337s
-	radix_sort():       0.182s
-
-Benchmark for 10000000 random 32-bit integers:
-	sort():             11.679s
-	counting_sort():    13.454s
-	merge_sort():       25.449s
-	radix_sort():       1.814s
+sort():             1.035s
+counting_sort():    5.068s
+merge_sort():       2.499s
+quick_sort():       1.226s
+radix_sort():       0.196s
+shell_sort():       2.089s
+Benchmark for 100000000 random 32-bit integers:
+sort():             12.357s
+counting_sort():    10.908s
+merge_sort():       26.574s
+quick_sort():       13.709s
+radix_sort():       1.849s
+shell_sort():       24.630s
 */
 
 #include "BubbleSort.hpp"
 #include "CountingSort.hpp"
+#include "HeapSort.hpp"
 #include "InsertionSort.hpp"
 #include "MergeSort.hpp"
 #include "ShellSort.hpp"
@@ -82,6 +86,12 @@ int main() {
 	{
 		int arr[] = {5, 36, 1, 98, 97, 34, 27, 33, 21};
 		counting_sort(arr, arr + 9);
+		assert(is_sorted(arr, arr + 9));
+	}
+
+	{
+		int arr[] = {5, 36, 1, 98, 97, 34, 27, 33, 21};
+		heap_sort(arr, arr + 9);
 		assert(is_sorted(arr, arr + 9));
 	}
 
@@ -146,6 +156,7 @@ int main() {
 	test(sort);
 	test(bubble_sort);
 	test(counting_sort);
+	test(heap_sort);
 	test(insertion_sort);
 	test(merge_sort);
 	test(quick_sort);
@@ -161,6 +172,7 @@ int main() {
 	cout.precision(3);
 	test(sort);
 	test(counting_sort);
+	test(heap_sort);
 	test(insertion_sort);
 	test(merge_sort);
 	test(quick_sort);
@@ -175,6 +187,7 @@ int main() {
 	cout.precision(3);
 	test(sort);
 	test(counting_sort);
+	test(heap_sort);
 	test(merge_sort);
 	test(quick_sort);
 	test(radix_sort);
@@ -188,6 +201,7 @@ int main() {
 	cout.precision(3);
 	test(sort);
 	test(counting_sort);
+	test(heap_sort);
 	test(merge_sort);
 	test(quick_sort);
 	test(radix_sort);
@@ -201,6 +215,7 @@ int main() {
 	cout.precision(3);
 	test(sort);
 	test(counting_sort);
+	test(heap_sort);
 	test(merge_sort);
 	test(quick_sort);
 	test(radix_sort);
