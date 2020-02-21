@@ -14,7 +14,7 @@ struct SparseTable {
 	template <typename It> void init(It st, It en) {
 		N = en - st; std::copy(st, en, sparse[0]);
 		lg[1] = 0; for (int i = 2; i <= N; i++) lg[i] = lg[i >> 1] + 1;
-		for (int j = 0; j < 31 - __builtin_clz(N); j++)
+		for (int j = 0; j < lg[N]; j++)
 			for (int i = 0; i + (1 << j) < N; i++)
 				sparse[j + 1][i] = query_op(sparse[j][i], sparse[j][i + (1 << j)]);
 	}
