@@ -14,10 +14,7 @@ struct TreeDiameter {
 	std::pair<T, int> dfs(int cur, int prev) {
 		std::pair<T, int> res = {0, cur}; par[cur] = prev;
 		for (auto &i : adj[cur]) {
-			if (i.first != prev) {
-				std::pair<T, int> cost = dfs(i.first, cur);
-				cost.first += i.second, res = std::max(res, cost);
-			}
+			if (i.first != prev) { std::pair<T, int> cost = dfs(i.first, cur); cost.first += i.second, res = std::max(res, cost); }
 		}
 		return res;
 	}

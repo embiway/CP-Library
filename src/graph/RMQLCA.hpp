@@ -12,14 +12,9 @@ template <const int MAXV, typename T, const int INDEXING>
 struct RMQLCA {
 	std::vector<std::pair<int, T>> adj[MAXV]; T dist[MAXV]; int tour[MAXV], sparse[32 - __builtin_clz(2 * MAXV)][2 * MAXV], lg[2 * MAXV], idx;
 	void add(int u, int v, T w) { u -= INDEXING, v -= INDEXING; adj[u].emplace_back(v, w); adj[v].emplace_back(u, w); }
-	void dfs(int cur, int prev, int d) {
+	void dfs(int cur, int prev, T d) {
 		dist[cur] = d, sparse[0][tour[cur] = idx++] = cur;
-		for (auto &i : adj[cur]) {
-			if (i.first != prev) {
-				dfs(i.first, cur, d + i.second);
-				sparse[0][idx++] = cur;
-			}
-		}
+		for (auto &i : adj[cur]) if (i.first != prev) { dfs(i.first, cur, d + i.second); sparse[0][idx++] = cur; }
 	}
 	void process(int root, int V = MAXV) {
 		idx = 0; dfs(root - INDEXING, -1, 0); lg[1] = 0; for (int i = 2; i <= idx; i++) lg[i] = lg[i >> 1] + 1;

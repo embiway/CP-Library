@@ -15,7 +15,7 @@ struct DSU {
 	int find(int v) { return v == par[v] ? v : par[v] = find(par[v]); }
 	bool join(int u, int v) {
 		if ((u = find(u)) == (v = find(v))) return false;
-		if (sz[u] < sz[v]) swap(u, v);
+		if (sz[u] < sz[v]) std::swap(u, v);
 		par[v] = u, sz[u] += sz[v];
 		return true;
 	}

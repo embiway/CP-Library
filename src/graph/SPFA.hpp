@@ -15,7 +15,7 @@ struct SPFA {
 	void add_bi(int u, int v, T w) { add(u, v, w); add(v, u, w); }
 	void min_path(int v, int V = MAXV) {
 		this->V = V; std::fill(dist, dist + V + INDEXING, INF); std::fill(par, par + V + INDEXING, -1); std::fill(inq, inq + V + INDEXING, false);
-		dq.emplace_back(0, v); dist[v] = 0, inq[v] = true;
+		dq.push_back(v); dist[v] = 0, inq[v] = true;
 		while (!dq.empty()) {
 			int cv = dq.front(); dq.pop_front(); inq[cv] = false;
 			for (auto &i : adj[cv]) {
@@ -24,8 +24,8 @@ struct SPFA {
 					dist[i.first] = d, par[i.first] = cv;
 					if (!inq[i.first]) {
 						inq[i.first] = true;
-						if (dist[i.first] < dist[dq.front()]) q.emplace_front(i.first);
-						else q.emplace_back(i.first);
+						if (dist[i.first] < dist[dq.front()]) dq.push_front(i.first);
+						else dq.push_back(i.first);
 					}
 				}
 			}

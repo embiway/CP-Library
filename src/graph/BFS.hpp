@@ -17,12 +17,7 @@ struct BFS {
 		q.push(v); dist[v] = 0;
 		while (!q.empty()) {
 			int cur = q.front(); q.pop();
-			for (int i : adj[cur]) {
-				if (dist[i] == INT_MAX) {
-					dist[i] = dist[cur] + 1, par[i] = cur;
-					q.push(i);
-				}
-			}
+			for (int i : adj[cur]) if (dist[i] == INT_MAX) dist[i] = dist[cur] + 1, par[i] = cur, q.push(i);
 		}
 	}
 	std::vector<int> get_path(int v) {

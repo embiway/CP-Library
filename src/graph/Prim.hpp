@@ -21,10 +21,7 @@ struct Prim {
 			if (vis[cv]) continue;
 			vis[cv] = true, ans += cw;
 			for (auto &i : adj[cv]) {
-				if (!vis[i.first] && cost[i.first] > i.second) {
-					cost[i.first] = i.second, par[i.first] = {cv, i.second};
-					pq.emplace(i.second, i.first);
-				}
+				if (!vis[i.first] && cost[i.first] > i.second) cost[i.first] = i.second, par[i.first] = {cv, i.second}, pq.emplace(i.second, i.first);
 			}
 		}
 		for (int i = 0; i < V + INDEXING; i++) if (par[i].first != -1) mst.push_back({i, par[i].first, par[i].second});

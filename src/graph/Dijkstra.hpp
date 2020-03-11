@@ -21,10 +21,7 @@ struct Dijkstra {
 			if (cw > dist[cv]) continue;
 			for (auto &i : adj[cv]) {
 				T d = i.second + dist[cv];
-				if (dist[i.first] > d) {
-					dist[i.first] = d, par[i.first] = cv;
-					pq.emplace(d, i.first);
-				}
+				if (dist[i.first] > d) dist[i.first] = d, par[i.first] = cv, pq.emplace(d, i.first);
 			}
 		}
 	}
