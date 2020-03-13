@@ -18,7 +18,7 @@ void radix_sort_unsigned(It st, It en) {
 		for (It i = st; i != en; i++) ++cnt[(*i >> p) & 255];
 		for (int i = 1; i < 256; i++) cnt[i] += cnt[i - 1];
 		for (It i = en - 1; i != st - 1; i--) bucket[--cnt[(*i >> p) & 255]] = *i;
-		memcpy(st, bucket, range * sizeof(T));
+		std::copy(bucket, bucket + range, st);
 	}
 	delete[] cnt;
 	delete[] bucket;
