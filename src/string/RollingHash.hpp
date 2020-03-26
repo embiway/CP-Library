@@ -1,5 +1,5 @@
 /*
-	Rolling Hash for fast computation of substring hashes (0-indexed [l, r])
+	Rolling Hash for fast computation of substring hashes [l, r]
 	Time complexity: O(N) init, O(1) get_hash, concat
 	 where N is the size of the string
 */
