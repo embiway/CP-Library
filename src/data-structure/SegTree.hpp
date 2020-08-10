@@ -14,7 +14,7 @@ template <const int MAXN, typename TV, typename TQ, const int INDEXING>
 struct SegTree {
 	TQ tree[MAXN << 1]; int N; const TQ DEFV, DEFQ; // default value of array and queries
 	TQ query_op(TQ a, TQ b); // range query operation
-	TQ update_op(TQ a, TV b); // range update operation
+	TQ update_op(TQ a, TV b); // point update operation
 	void init(int N = MAXN) {
 		this->N = N; for (int i = 0; i < N; i++) tree[N + i] = DEFV;
 		for (int i = N - 1; i; i--) tree[i] = query_op(tree[i << 1], tree[i << 1 | 1]);
