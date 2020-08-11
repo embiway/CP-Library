@@ -22,7 +22,7 @@ struct RMQLCA {
 			for (int i = 0; i + (1 << j) < idx; i++)
 				sparse[j + 1][i] = argmin(sparse[j][i], sparse[j][i + (1 << j)]);
 	}
-	int query(int u, int v) { u -= INDEXING, v -= INDEXING; if (tour[u] > tour[v]) std::swap(u, v); return query_(tour[u], tour[v]); }
+	int query(int u, int v) { u -= INDEXING, v -= INDEXING; if (tour[u] > tour[v]) std::swap(u, v); return query_(tour[u], tour[v]) + INDEXING; }
 	T distance(int u, int v) { return dist[u - INDEXING] + dist[v - INDEXING] - 2 * dist[query(u, v)]; }
 private:
     int argmin(int u, int v) { return dist[u] < dist[v] ? u : v; }
