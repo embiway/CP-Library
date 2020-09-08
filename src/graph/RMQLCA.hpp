@@ -1,5 +1,5 @@
 /*
-	Lowest Common Ancestor by converting to Range Minimum Query (RMQ)
+	Lowest Common Ancestor on a tree by converting to Range Minimum Query (RMQ)
 	Also calculates distance using the formula dist[u] + dist[v] - 2 * dist[lca(u, v)]
 	Time complexity: O(V log V) process, O(1) query, dist
 	 where V is the number of vertices
